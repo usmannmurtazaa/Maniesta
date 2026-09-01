@@ -10,12 +10,12 @@
     <meta property="og:type" content="website" />
 
     <!-- React + ReactDOM UMD -->
-    <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
     <!-- htm for JSX-like syntax without Babel -->
-    <script src="https://unpkg.com/htm@3.1.1/dist/htm.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.js"></script>
     <!-- Three.js for the globe -->
-    <script src="https://unpkg.com/three@0.164.1/build/three.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.min.js"></script>
 
     <style>
         :root {
@@ -102,9 +102,7 @@
             stroke-dashoffset: 1000;
             animation: drawText 2s ease forwards;
         }
-        @keyframes drawText {
-            to { stroke-dashoffset: 0; }
-        }
+        @keyframes drawText { to { stroke-dashoffset: 0; } }
 
         /* Project cards */
         .project-card-3d { perspective: 1000px; transform-style: preserve-3d; transition: transform 0.25s ease; cursor: pointer; position: relative; }
