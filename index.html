@@ -27,7 +27,7 @@
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.js"></script>
     <!-- Framer Motion -->
-    <script src="https://cdn.jsdelivr.net/npm/framer-motion@11.0.3/dist/framer-motion.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/framer-motion@10.16.4/dist/framer-motion.umd.min.js"></script>
     <!-- Three.js for Globe -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.min.js"></script>
     <!-- Simplex Noise for WavyBackground -->
@@ -641,8 +641,7 @@
 
         const { useState, useEffect, useRef, useMemo } = React;
         const html = htm.bind(React.createElement);
-        const fm = window.framerMotion || window.Motion;
-        const { motion, AnimatePresence, useScroll, useTransform, useSpring } = fm;
+        const { motion, AnimatePresence, useScroll, useTransform, useSpring } = window.Motion;
 
         // ──────────────────────────────────────────────
         // Utility
