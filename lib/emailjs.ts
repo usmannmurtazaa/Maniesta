@@ -18,7 +18,7 @@ export async function sendEmail(formData: EmailData) {
     const response = await emailjs.send(
       EMAILJS_SERVICE_ID,
       EMAILJS_TEMPLATE_ID,
-      formData as unknown as Record<string, unknown>, 
+      formData as unknown as Record<string, unknown>,
       EMAILJS_PUBLIC_KEY
     );
     return { success: true, response };

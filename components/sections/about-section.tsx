@@ -30,8 +30,8 @@ export default function AboutSection() {
             Built by Usman Murtaza
           </h3>
           <p className="text-gray-400 text-sm md:text-base max-w-xl mx-auto">
-            Usman Murtaza is a computer science focused developer interested in software engineering, AI,
-            modern web technologies, UI/UX and interactive digital experiences.
+            Usman Murtaza is a computer science focused developer interested in software
+            engineering, AI, modern web technologies, UI/UX and interactive digital experiences.
           </p>
         </motion.div>
       </div>

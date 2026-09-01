@@ -32,11 +32,11 @@
 MANIESTA is more than a portfolio — it's a **digital product ecosystem**.  
 This single‑file application combines:
 
-- 🌍 **Real‑time 3D globe** with animated arcs and atmospheric glow  
-- 🎨 **Wavy simplex‑noise background** in cyan, blue, purple, and magenta  
-- 🖱️ **Mouse‑tracking text effect** that reveals a multicolor gradient  
-- 🃏 **Parallax project rows** moving in opposite directions on scroll  
-- ✨ **Tracing beam** that follows your scroll progress  
+- 🌍 **Real‑time 3D globe** with animated arcs and atmospheric glow
+- 🎨 **Wavy simplex‑noise background** in cyan, blue, purple, and magenta
+- 🖱️ **Mouse‑tracking text effect** that reveals a multicolor gradient
+- 🃏 **Parallax project rows** moving in opposite directions on scroll
+- ✨ **Tracing beam** that follows your scroll progress
 
 > **No build step. No dependencies. Just open `index.html` and experience it.**
 
@@ -61,42 +61,42 @@ This single‑file application combines:
 
 ### **Hero Section**
 
-- Animated wavy background with simplex‑noise driven waves  
-- Lamp glow effect illuminating the MANIESTA heading  
-- Mouse‑tracking text hover with multicolor gradient reveal  
-- Floating sparkles that shimmer subtly  
-- Parallax mouse movement for depth  
+- Animated wavy background with simplex‑noise driven waves
+- Lamp glow effect illuminating the MANIESTA heading
+- Mouse‑tracking text hover with multicolor gradient reveal
+- Floating sparkles that shimmer subtly
+- Parallax mouse movement for depth
 
 ### **Project Showcase**
 
-- 12+ digital products displayed as 3D tilt cards  
-- Hover effects with translateZ depth layering  
-- Category filtering with smooth animated pills  
-- Three‑row parallax scroll (rows move in opposite directions)  
-- Dynamic project cards with gradient thumbnails  
+- 12+ digital products displayed as 3D tilt cards
+- Hover effects with translateZ depth layering
+- Category filtering with smooth animated pills
+- Three‑row parallax scroll (rows move in opposite directions)
+- Dynamic project cards with gradient thumbnails
 
 ### **Global Section**
 
-- Interactive Three.js globe with:  
-  - Auto‑rotation  
-  - Glowing country points  
-  - Animated connection arcs  
-  - Atmospheric glow shader  
-  - Orbiting rings  
+- Interactive Three.js globe with:
+  - Auto‑rotation
+  - Glowing country points
+  - Animated connection arcs
+  - Atmospheric glow shader
+  - Orbiting rings
 
 ### **Technology Stack**
 
-- 15+ technologies displayed as floating cards  
-- Hover lift effects with purple glow  
-- Clean, modern grid layout  
+- 15+ technologies displayed as floating cards
+- Hover lift effects with purple glow
+- Clean, modern grid layout
 
 ### **Performance & UX**
 
-- Lazy‑loaded animations (IntersectionObserver)  
-- `requestAnimationFrame` for smooth 60fps  
-- `prefers-reduced-motion` support  
-- Cleanup of all observers, listeners, and 3D resources  
-- Mobile optimization (reduced 3D intensity, smaller particles)  
+- Lazy‑loaded animations (IntersectionObserver)
+- `requestAnimationFrame` for smooth 60fps
+- `prefers-reduced-motion` support
+- Cleanup of all observers, listeners, and 3D resources
+- Mobile optimization (reduced 3D intensity, smaller particles)
 
 ---
 
@@ -123,8 +123,8 @@ python3 -m http.server 8000
 
 ### **Option 3: Deploy to Netlify**
 
-1. Drag and drop the project folder onto [Netlify Drop](https://app.netlify.com/drop)  
-2. Your site goes live instantly  
+1. Drag and drop the project folder onto [Netlify Drop](https://app.netlify.com/drop)
+2. Your site goes live instantly
 
 ---
 
@@ -184,10 +184,10 @@ Change CSS variables in `:root`:
 
 Adjust in the `GlobeComponent`:
 
-- `pointsCount` – number of glowing dots  
-- `arcCount` – number of connection arcs  
-- `ringCount` – number of orbital rings  
-- Rotation speed values  
+- `pointsCount` – number of glowing dots
+- `arcCount` – number of connection arcs
+- `ringCount` – number of orbital rings
+- Rotation speed values
 
 ---
 
@@ -224,15 +224,15 @@ Makes it extremely portable and easy to modify.
 
 ### **Edit directly:**
 
-1. Open `index.html` in your preferred editor  
-2. Find the relevant section (data, styles, components)  
-3. Make changes and refresh the browser  
+1. Open `index.html` in your preferred editor
+2. Find the relevant section (data, styles, components)
+3. Make changes and refresh the browser
 
 ### **Performance tips:**
 
-- Keep `particleDensity` below 50 for mobile  
-- Reduce `arcCount` to 3 for low‑power devices  
-- Enable `prefers-reduced-motion` for accessibility  
+- Keep `particleDensity` below 50 for mobile
+- Reduce `arcCount` to 3 for low‑power devices
+- Enable `prefers-reduced-motion` for accessibility
 
 ---
 
@@ -251,12 +251,12 @@ Makes it extremely portable and easy to modify.
 
 ## 🔒 **Accessibility**
 
-- Semantic HTML elements (`<nav>`, `<section>`, `<footer>`)  
-- Keyboard‑navigable buttons and links  
-- Visible focus states  
-- `aria-label` on interactive elements  
-- Color contrast ratios maintained  
-- Reduced‑motion support  
+- Semantic HTML elements (`<nav>`, `<section>`, `<footer>`)
+- Keyboard‑navigable buttons and links
+- Visible focus states
+- `aria-label` on interactive elements
+- Color contrast ratios maintained
+- Reduced‑motion support
 
 ---
 
@@ -275,10 +275,10 @@ Distributed under the **MIT License** — free to use, modify, and distribute.
 
 ## 🙏 **Acknowledgments**
 
-- [React](https://reactjs.org/) – UI library  
-- [htm](https://github.com/developit/htm) – JSX‑like syntax  
-- [Three.js](https://threejs.org/) – 3D rendering  
-- [Framer Motion](https://www.framer.com/motion/) – Animations  
+- [React](https://reactjs.org/) – UI library
+- [htm](https://github.com/developit/htm) – JSX‑like syntax
+- [Three.js](https://threejs.org/) – 3D rendering
+- [Framer Motion](https://www.framer.com/motion/) – Animations
 
 ---
 

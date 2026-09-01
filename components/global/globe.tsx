@@ -233,17 +233,17 @@ export default function Globe({ className }: GlobeProps) {
       window.removeEventListener('resize', handleResize);
       renderer.dispose();
       scene.traverse((obj) => {
-  if (obj instanceof THREE.Mesh) {
-    if (obj.geometry) obj.geometry.dispose();
-    if (obj.material) {
-      if (Array.isArray(obj.material)) {
-        obj.material.forEach((m) => m.dispose());
-      } else {
-        obj.material.dispose();
-      }
-    }
-  }
-});
+        if (obj instanceof THREE.Mesh) {
+          if (obj.geometry) obj.geometry.dispose();
+          if (obj.material) {
+            if (Array.isArray(obj.material)) {
+              obj.material.forEach((m) => m.dispose());
+            } else {
+              obj.material.dispose();
+            }
+          }
+        }
+      });
       if (renderer.domElement.parentNode === container) {
         container.removeChild(renderer.domElement);
       }
