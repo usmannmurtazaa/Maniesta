@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import AnimatedButton from '@/components/ui/animated-button';
 import SparklesCore from '@/components/ui/sparkles';
 import DottedGlowBackground from '@/components/ui/dotted-glow-background';
+import { FiArrowRight, FiExternalLink } from 'react-icons/fi';
 
 export default function FinalCTASection() {
   const scrollTo = (id: string) => {
@@ -52,12 +53,9 @@ export default function FinalCTASection() {
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
           <AnimatedButton onClick={() => scrollTo('projects')}>
-            Explore Projects <span>→</span>
+            Explore Projects <FiArrowRight className="w-5 h-5" />
           </AnimatedButton>
-          <AnimatedButton
-            variant="secondary"
-            href="https://Usmanmurtaza.netlify.app/"
-          >
+          <AnimatedButton variant="secondary" href="https://Usmanmurtaza.netlify.app/">
             Usman Murtaza
           </AnimatedButton>
         </motion.div>

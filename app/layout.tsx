@@ -3,17 +3,8 @@ import { Inter, Outfit } from 'next/font/google';
 import './globals.css';
 import Providers from './providers';
 
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-});
-
-const outfit = Outfit({
-  subsets: ['latin'],
-  variable: '--font-outfit',
-  display: 'swap',
-});
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit', display: 'swap' });
 
 export const metadata: Metadata = {
   title: 'MANIESTA | Digital Products & Interactive Experiences',
@@ -35,11 +26,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <body className="bg-[#0a0a0f] text-white antialiased">

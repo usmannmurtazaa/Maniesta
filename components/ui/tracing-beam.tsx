@@ -41,14 +41,11 @@ export default function TracingBeam({ children, className }: TracingBeamProps) {
 
       progress.style.height = progressPct + '%';
       dot.style.top = progressPct + '%';
-
       rafId = null;
     };
 
     const onScroll = () => {
-      if (!rafId) {
-        rafId = requestAnimationFrame(updateBeam);
-      }
+      if (!rafId) rafId = requestAnimationFrame(updateBeam);
     };
 
     updateBeam();
@@ -77,7 +74,7 @@ export default function TracingBeam({ children, className }: TracingBeamProps) {
       </div>
       <div
         ref={dotRef}
-        className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_12px_#8b5cf6,0_0_24px_#8b5cf6] z-10"
+        className="absolute left-[19px] -translate-x-1/2 w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_12px_#8b5cf6,0_0_24px_#8b5cf6] z-10"
         style={{ top: '0%' }}
       />
       <div className="pl-14 md:pl-16">{children}</div>

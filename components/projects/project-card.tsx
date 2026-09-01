@@ -1,15 +1,47 @@
 'use client';
 
-import { Project } from '@/data/projects';
 import { CardContainer, CardBody, CardItem } from '@/components/ui/3d-card';
-import { motion } from 'framer-motion';
+import { Project } from '@/data/projects';
+import { FiExternalLink, FiCpu } from 'react-icons/fi';
+import {
+  SiReact,
+  SiNextdotjs,
+  SiTypescript,
+  SiJavascript,
+  SiTailwindcss,
+  SiFramer,
+  SiThreedotjs,
+  SiFirebase,
+  SiGit,
+  SiGithub,
+  SiNetlify,
+} from 'react-icons/si';
+import { TbApi } from 'react-icons/tb';
+import { FiGlobe } from 'react-icons/fi';
 
 interface ProjectCardProps {
   project: Project;
-  index: number;
+  index?: number;
 }
 
-export default function ProjectCard({ project, index }: ProjectCardProps) {
+const techIconMap: Record<string, JSX.Element> = {
+  React: <SiReact className="w-3 h-3" />,
+  'Next.js': <SiNextdotjs className="w-3 h-3" />,
+  TypeScript: <SiTypescript className="w-3 h-3" />,
+  JavaScript: <SiJavascript className="w-3 h-3" />,
+  'Tailwind CSS': <SiTailwindcss className="w-3 h-3" />,
+  Motion: <SiFramer className="w-3 h-3" />,
+  'Three.js': <SiThreedotjs className="w-3 h-3" />,
+  Firebase: <SiFirebase className="w-3 h-3" />,
+  'AI APIs': <FiCpu className="w-3 h-3" />, // replaced SiOpenai with FiCpu
+  'REST APIs': <TbApi className="w-3 h-3" />,
+  'Web APIs': <FiGlobe className="w-3 h-3" />,
+  Git: <SiGit className="w-3 h-3" />,
+  GitHub: <SiGithub className="w-3 h-3" />,
+  Netlify: <SiNetlify className="w-3 h-3" />,
+};
+
+export default function ProjectCard({ project }: ProjectCardProps) {
   const handleClick = () => {
     window.open(project.link, '_blank', 'noopener,noreferrer');
   };
@@ -34,7 +66,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
               <span className="text-xs font-semibold tracking-wider uppercase text-white/70">
                 {project.category}
               </span>
-              <span className="text-xs text-white/50">↗</span>
+              <FiExternalLink className="w-4 h-4 text-white/50" />
             </div>
           </div>
         </CardItem>
@@ -57,8 +89,9 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
           {project.technologies.slice(0, 3).map((tech, i) => (
             <span
               key={i}
-              className="text-xs font-medium px-2.5 py-1 rounded-md bg-white/5 text-white/60 border border-white/10"
+              className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-md bg-white/5 text-white/60 border border-white/10"
             >
+              {techIconMap[tech] || null}
               {tech}
             </span>
           ))}

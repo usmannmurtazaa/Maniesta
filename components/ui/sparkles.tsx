@@ -34,7 +34,6 @@ export default function SparklesCore({
 
     const width = (canvas.width = canvas.offsetWidth);
     const height = (canvas.height = canvas.offsetHeight);
-
     const particles: any[] = [];
     for (let i = 0; i < particleDensity; i++) {
       particles.push({
@@ -50,8 +49,8 @@ export default function SparklesCore({
     }
     particlesRef.current = particles;
 
-    function animate() {
-      ctx!.clearRect(0, 0, width, height);
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
       const time = Date.now() * 0.001;
 
       particles.forEach((p) => {
@@ -67,18 +66,33 @@ export default function SparklesCore({
         const alpha = p.alpha * (0.5 + 0.5 * Math.sin(p.phase + time * speed));
         const size = p.size * (0.8 + 0.4 * Math.sin(p.phase * 1.5 + time));
 
-        ctx!.beginPath();
-        ctx!.arc(p.x, p.y, size, 0, Math.PI * 2);
-        ctx!.fillStyle = particleColor;
-        ctx!.globalAlpha = Math.max(0, alpha);
-        ctx!.fill();
-        ctx!.globalAlpha = 1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+        ctx.fillStyle = particleColor;
+        ctx.globalAlpha = Math.max(0, alpha);
+        ctx.fill();
+        ctx.globalAlpha = 1;
       });
 
       animationRef.current = requestAnimationFrame(animate);
-    }
+    };
 
-    animate();
+    const staticDraw = () => {
+      particles.forEach((p) => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = particleColor;
+        ctx.globalAlpha = p.alpha;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      });
+    };
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      animate();
+    } else {
+      staticDraw();
+    }
 
     const handleResize = () => {
       canvas.width = canvas.offsetWidth;
@@ -92,5 +106,11 @@ export default function SparklesCore({
     };
   }, [minSize, maxSize, particleDensity, particleColor, speed]);
 
-  return <canvas ref={canvasRef} className={cn('absolute', className)} style={{ background, pointerEvents: 'none' }} />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className={cn('absolute', className)}
+      style={{ background, pointerEvents: 'none' }}
+    />
+  );
 }

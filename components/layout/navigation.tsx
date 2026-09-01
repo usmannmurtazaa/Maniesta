@@ -25,18 +25,15 @@ export default function Navigation() {
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setMobileOpen(false);
   };
 
   return (
     <nav
       className={cn(
-        'fixed top-0 left-0 right-0 z-[999] transition-all duration-300',
-        scrolled ? 'py-3' : 'py-5',
-        'backdrop-blur-xl bg-[#0a0a0f]/70 border-b border-white/5'
+        'fixed top-0 left-0 right-0 z-[999] transition-all duration-300 backdrop-blur-xl bg-[#0a0a0f]/70 border-b border-white/5',
+        scrolled ? 'py-3' : 'py-5'
       )}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between">
@@ -45,15 +42,7 @@ export default function Navigation() {
           className="flex items-center gap-2 bg-transparent border-none cursor-pointer"
           aria-label="MANIESTA home"
         >
-          <span
-            className="font-display text-xl font-bold tracking-tight"
-            style={{
-              background: 'linear-gradient(135deg, #22d3ee, #8b5cf6, #d946ef)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
+          <span className="font-display text-xl font-bold tracking-tight bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
             MANIESTA
           </span>
         </button>
@@ -81,12 +70,16 @@ export default function Navigation() {
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            {mobileOpen ? (
-              <path d="M6 6l12 12M18 6L6 18" />
-            ) : (
-              <path d="M4 7h16M4 12h16M4 17h16" />
-            )}
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          >
+            {mobileOpen ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
           </svg>
         </button>
       </div>

@@ -27,10 +27,10 @@ export default function AboutSection() {
             Creator
           </p>
           <h3 className="font-display text-xl md:text-2xl font-semibold mb-3 text-white">
-            Built by Mani
+            Built by Usman Murtaza
           </h3>
           <p className="text-gray-400 text-sm md:text-base max-w-xl mx-auto">
-            Mani is a computer science focused developer interested in software engineering, AI,
+            Usman Murtaza is a computer science focused developer interested in software engineering, AI,
             modern web technologies, UI/UX and interactive digital experiences.
           </p>
         </motion.div>

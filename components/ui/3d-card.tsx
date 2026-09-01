@@ -40,9 +40,7 @@ export function CardContainer({ children, className, onClick }: CardContainerPro
     setTransform(
       `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`
     );
-    setGlow(
-      `radial-gradient(circle at ${x}px ${y}px, rgba(139,92,246,0.12), transparent 60%)`
-    );
+    setGlow(`radial-gradient(circle at ${x}px ${y}px, rgba(139,92,246,0.12), transparent 60%)`);
   };
 
   const handleMouseLeave = () => {
@@ -82,7 +80,14 @@ export function CardBody({ children, className }: CardBodyProps) {
   );
 }
 
-export function CardItem({ children, className, translateZ = 0, as: Tag = 'div', style, ...props }: CardItemProps) {
+export function CardItem({
+  children,
+  className,
+  translateZ = 0,
+  as: Tag = 'div',
+  style,
+  ...props
+}: CardItemProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (

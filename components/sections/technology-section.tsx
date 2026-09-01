@@ -26,7 +26,7 @@ export default function TechnologySection() {
           className="grid grid-cols-3 md:grid-cols-5 gap-4"
         >
           {technologies.map((tech, i) => (
-            <TechCard key={tech.name} name={tech.name} icon={tech.icon} index={i} />
+            <TechCard key={tech.name} name={tech.name} index={i} />
           ))}
         </motion.div>
 

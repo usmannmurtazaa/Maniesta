@@ -1,6 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 interface LampContainerProps {
@@ -30,7 +31,8 @@ export default function LampContainer({ children, className }: LampContainerProp
       />
       <style jsx>{`
         @keyframes lampPulse {
-          0%, 100% {
+          0%,
+          100% {
             opacity: 0.7;
             transform: translateX(-50%) scaleY(1);
           }

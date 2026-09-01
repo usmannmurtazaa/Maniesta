@@ -37,7 +37,6 @@ export default function HeroSection() {
         waveOpacity={0.35}
         className="opacity-70"
       />
-
       <DottedGlowBackground className="opacity-40" />
 
       <div
@@ -48,9 +47,7 @@ export default function HeroSection() {
         }}
       >
         <LampContainer>
-          <div className="mb-[-10px]">
-            <TextHoverEffect text="MANIESTA" />
-          </div>
+          <TextHoverEffect text="MANIESTA" />
         </LampContainer>
 
         <SparklesCore
@@ -100,12 +97,12 @@ export default function HeroSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-center"
       >
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="text-white/40 text-xs tracking-[0.15em] uppercase text-center"
+          className="text-white/40 text-xs tracking-[0.15em] uppercase"
         >
           Scroll to explore
           <div className="w-[1px] h-[30px] bg-white/30 mx-auto mt-2" />

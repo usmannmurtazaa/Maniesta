@@ -9,7 +9,7 @@ import ProjectsSection from '@/components/sections/projects-section';
 import GlobalSection from '@/components/sections/global-section';
 import TechnologySection from '@/components/sections/technology-section';
 import AboutSection from '@/components/sections/about-section';
-import FinalCTASection from '@/components/sections/final-cta';
+import ContactSection from '@/components/sections/contact-section'; // <-- new
 import TracingBeam from '@/components/ui/tracing-beam';
 
 export default function HomePage() {
@@ -69,7 +69,7 @@ export default function HomePage() {
               <AboutSection />
             </TracingBeam>
             <TracingBeam>
-              <FinalCTASection />
+              <ContactSection />
             </TracingBeam>
           </motion.main>
         )}

@@ -20,6 +20,11 @@ export default function WavyBackground({
 }: WavyBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
+  const reducedMotion =
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Stable string representation of colors for dependency array
+  const colorsKey = colors ? colors.join(',') : '';
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -31,7 +36,8 @@ export default function WavyBackground({
     let height = (canvas.height = canvas.offsetHeight);
     let time = 0;
 
-    const colorValues = colors.map((c) => {
+    // Reconstruct color values from colorsKey to avoid using the colors prop directly
+    const colorValues = colorsKey.split(',').map((c) => {
       const r = parseInt(c.slice(1, 3), 16);
       const g = parseInt(c.slice(3, 5), 16);
       const b = parseInt(c.slice(5, 7), 16);
@@ -40,31 +46,31 @@ export default function WavyBackground({
 
     const speedFactor = speed === 'slow' ? 0.003 : speed === 'medium' ? 0.006 : 0.01;
 
-    function drawWave(
+    const drawWave = (
       offsetY: number,
       amplitude: number,
       frequency: number,
       phase: number,
       color: number[],
       opacity: number
-    ) {
-      ctx!.beginPath();
-      ctx!.moveTo(0, height / 2);
+    ) => {
+      ctx.beginPath();
+      ctx.moveTo(0, height / 2);
       for (let x = 0; x <= width; x += 3) {
         const y =
           offsetY +
           Math.sin(x * frequency + time + phase) * amplitude +
           Math.cos(x * frequency * 0.7 + time * 1.3 + phase) * amplitude * 0.5;
-        ctx!.lineTo(x, y);
+        ctx.lineTo(x, y);
       }
-      ctx!.strokeStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${opacity})`;
-      ctx!.lineWidth = 2;
-      ctx!.stroke();
-    }
+      ctx.strokeStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${opacity})`;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    };
 
-    function animate() {
-      ctx!.clearRect(0, 0, width, height);
-      ctx!.filter = `blur(${blur}px)`;
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
+      ctx.filter = `blur(${blur}px)`;
 
       const centerY = height * 0.5;
 
@@ -76,12 +82,23 @@ export default function WavyBackground({
         drawWave(offsetY, amplitude, frequency, i * 0.8, color, Math.max(0.05, opacity));
       });
 
-      ctx!.filter = 'none';
+      ctx.filter = 'none';
       time += speedFactor;
       animationRef.current = requestAnimationFrame(animate);
-    }
+    };
 
-    animate();
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      animate();
+    } else {
+      // static rendering for reduced motion
+      colorValues.forEach((color, i) => {
+        const offsetY = height * 0.5 + (i - colorValues.length / 2) * 20;
+        const amplitude = 30 + i * 8;
+        const frequency = 0.005 + i * 0.001;
+        const opacity = waveOpacity * (1 - i * 0.08);
+        drawWave(offsetY, amplitude, frequency, i * 0.8, color, Math.max(0.05, opacity));
+      });
+    }
 
     const handleResize = () => {
       width = canvas.width = canvas.offsetWidth;
@@ -93,7 +110,13 @@ export default function WavyBackground({
       cancelAnimationFrame(animationRef.current!);
       window.removeEventListener('resize', handleResize);
     };
-  }, [colors.join(','), blur, speed, waveOpacity]);
+  }, [colorsKey, blur, speed, waveOpacity, reducedMotion]);
 
-  return <canvas ref={canvasRef} className={cn('absolute inset-0 w-full h-full', className)} style={{ pointerEvents: 'none' }} />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className={cn('absolute inset-0 w-full h-full', className)}
+      style={{ pointerEvents: 'none' }}
+    />
+  );
 }

@@ -1,5 +1,7 @@
 'use client';
 
+import { FiGithub, FiMail, FiLinkedin } from 'react-icons/fi';
+
 export default function Footer() {
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -11,25 +13,17 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div className="md:col-span-2">
-            <h3
-              className="font-display text-xl font-bold mb-3"
-              style={{
-                background: 'linear-gradient(135deg, #22d3ee, #8b5cf6, #d946ef)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
+            <h3 className="font-display text-xl font-bold mb-3 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
               MANIESTA
             </h3>
             <p className="text-gray-500 text-sm max-w-xs">
-              Digital Products and Interactive Experiences.
+              Digital products, applications and experiments built with modern technology.
             </p>
           </div>
           <div>
             <h4 className="text-sm font-semibold text-gray-300 mb-3">Navigation</h4>
             <div className="flex flex-col gap-2">
-              {['Projects', 'Technology', 'Global', 'About'].map((item) => (
+              {['About', 'Projects', 'Technology', 'Global', 'Contact'].map((item) => (
                 <button
                   key={item}
                   onClick={() => scrollTo(item.toLowerCase())}
@@ -41,32 +35,36 @@ export default function Footer() {
             </div>
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-gray-300 mb-3">Featured Projects</h4>
+            <h4 className="text-sm font-semibold text-gray-300 mb-3">Contact</h4>
             <div className="flex flex-col gap-2">
-              {['Resume AI', 'Maniesta Suite', 'Maniesta School', 'Zain Real Estate'].map((proj) => (
-                <span key={proj} className="text-gray-500 text-sm">
-                  {proj}
-                </span>
-              ))}
+              <a
+                href="mailto:maniesta01@gmail.com"
+                className="text-gray-500 hover:text-gray-300 text-sm transition-colors inline-flex items-center gap-2"
+              >
+                <FiMail className="w-4 h-4" />
+                maniesta01@gmail.com
+              </a>
+            </div>
+            <h4 className="text-sm font-semibold text-gray-300 mt-4 mb-2">Social</h4>
+            <div className="flex gap-4">
+              <a
+                href="https://github.com/usmannmurtazaa"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="text-gray-500 hover:text-white transition-colors"
+              >
+                <FiGithub className="w-5 h-5" />
+              </a>
+              {/* Uncomment when LinkedIn URL is available */}
+              {/* <a href="#" aria-label="LinkedIn" className="text-gray-500 hover:text-white transition-colors">
+                <FiLinkedin className="w-5 h-5" />
+              </a> */}
             </div>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-6 border-t border-white/5">
+        <div className="pt-6 border-t border-white/5 text-center">
           <p className="text-xs text-gray-600">© 2026 Maniesta. All rights reserved.</p>
-          <div className="flex gap-4">
-            <a href="#" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
-              GitHub
-            </a>
-            <a href="#" className="text-xs text-gray-500 hover:text-gray-300 transition-colors">
-              LinkedIn
-            </a>
-            <a
-              href="mailto:contact@maniesta.dev"
-              className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
-            >
-              Email
-            </a>
-          </div>
         </div>
       </div>
     </footer>

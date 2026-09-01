@@ -24,15 +24,9 @@ export default function SectionHeading({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.7 }}
-      className={cn(
-        'mb-12',
-        align === 'center' ? 'text-center' : 'text-left',
-        className
-      )}
+      className={cn('mb-12', align === 'center' ? 'text-center' : 'text-left', className)}
     >
-      <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-3">
-        {label}
-      </p>
+      <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-3">{label}</p>
       <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-4">
         {title}
       </h2>
