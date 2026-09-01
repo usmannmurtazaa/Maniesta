@@ -24,7 +24,7 @@ export default function HomePage() {
     <>
       <Navigation />
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {loading ? (
           <motion.div
             key="loader"

@@ -24,6 +24,9 @@ export const metadata: Metadata = {
     description:
       'Explore Maniesta, a collection of modern digital products, AI applications, productivity tools, education platforms, utilities and interactive web experiences.',
   },
+  icons: {
+    icon: '/icon.png',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

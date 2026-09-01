@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { cn } from '@/lib/utils';
 
@@ -10,31 +10,42 @@ interface GlobeProps {
 
 export default function Globe({ className }: GlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const mountedRef = useRef(false);
 
   useEffect(() => {
-    setReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  }, []);
+    if (mountedRef.current) return;
+    mountedRef.current = true;
 
-  useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      45,
-      container.clientWidth / container.clientHeight,
-      0.1,
-      100
-    );
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+    const renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: !reducedMotion,
+      powerPreference: 'default',
+    });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
     camera.position.z = 8;
 
-    // Globe sphere
+    // Handle context loss
+    const handleContextLost = (event: Event) => {
+      event.preventDefault();
+      renderer.dispose();
+    };
+    const handleContextRestored = () => {
+      renderer.setSize(container.clientWidth, container.clientHeight);
+    };
+    renderer.domElement.addEventListener('webglcontextlost', handleContextLost, false);
+    renderer.domElement.addEventListener('webglcontextrestored', handleContextRestored, false);
+
+    // Globe
     const globeGeometry = new THREE.SphereGeometry(2.5, 64, 64);
     const globeMaterial = new THREE.MeshPhongMaterial({
       color: 0x1a1a2e,
@@ -46,23 +57,23 @@ export default function Globe({ className }: GlobeProps) {
     const globe = new THREE.Mesh(globeGeometry, globeMaterial);
     scene.add(globe);
 
-    // Wireframe overlay
-    const wireframeGeometry = new THREE.SphereGeometry(2.52, 32, 32);
-    const wireframeMaterial = new THREE.MeshBasicMaterial({
+    // Wireframe
+    const wireGeometry = new THREE.SphereGeometry(2.52, 32, 32);
+    const wireMaterial = new THREE.MeshBasicMaterial({
       color: 0x8b5cf6,
       wireframe: true,
       transparent: true,
       opacity: 0.2,
     });
-    const wireframe = new THREE.Mesh(wireframeGeometry, wireframeMaterial);
+    const wireframe = new THREE.Mesh(wireGeometry, wireMaterial);
     scene.add(wireframe);
 
-    // Points with color palette
+    // Points
     const pointsCount = reducedMotion ? 100 : 300;
     const pointsGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(pointsCount * 3);
     const colors = new Float32Array(pointsCount * 3);
-    const colorPalette = [
+    const palette = [
       new THREE.Color('#22d3ee'),
       new THREE.Color('#3b82f6'),
       new THREE.Color('#8b5cf6'),
@@ -76,10 +87,10 @@ export default function Globe({ className }: GlobeProps) {
       positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       positions[i * 3 + 1] = r * Math.cos(phi);
       positions[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
-      const col = colorPalette[Math.floor(Math.random() * colorPalette.length)];
-      colors[i * 3] = col.r;
-      colors[i * 3 + 1] = col.g;
-      colors[i * 3 + 2] = col.b;
+      const c = palette[Math.floor(Math.random() * palette.length)];
+      colors[i * 3] = c.r;
+      colors[i * 3 + 1] = c.g;
+      colors[i * 3 + 2] = c.b;
     }
     pointsGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     pointsGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
@@ -94,7 +105,7 @@ export default function Globe({ className }: GlobeProps) {
     const points = new THREE.Points(pointsGeometry, pointsMaterial);
     scene.add(points);
 
-    // Atmospheric glow (gradient)
+    // Atmospheric glow
     const glowGeometry = new THREE.SphereGeometry(2.7, 64, 64);
     const glowMaterial = new THREE.ShaderMaterial({
       uniforms: {
@@ -130,11 +141,10 @@ export default function Globe({ className }: GlobeProps) {
     scene.add(glow);
 
     // Lights
-    const ambientLight = new THREE.AmbientLight(0x222244, 1.2);
-    scene.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0x8b5cf6, 1.5);
-    directionalLight.position.set(5, 5, 5);
-    scene.add(directionalLight);
+    scene.add(new THREE.AmbientLight(0x222244, 1.2));
+    const dirLight = new THREE.DirectionalLight(0x8b5cf6, 1.5);
+    dirLight.position.set(5, 5, 5);
+    scene.add(dirLight);
     const pointLight1 = new THREE.PointLight(0x22d3ee, 2, 20);
     pointLight1.position.set(-3, 2, 4);
     scene.add(pointLight1);
@@ -147,23 +157,14 @@ export default function Globe({ className }: GlobeProps) {
     const arcCount = reducedMotion ? 6 : 12;
     const arcColors = [0x22d3ee, 0x3b82f6, 0x8b5cf6, 0xa855f7, 0xd946ef];
     for (let i = 0; i < arcCount; i++) {
-      const startTheta = Math.random() * Math.PI * 2;
-      const endTheta = startTheta + Math.PI * 0.5 + Math.random() * Math.PI * 0.8;
-      const startPhi = Math.acos(2 * Math.random() - 1);
-      const endPhi = Math.acos(2 * Math.random() - 1);
-      const startR = 2.55;
-      const endR = 2.55;
-
-      const start = new THREE.Vector3(
-        startR * Math.sin(startPhi) * Math.cos(startTheta),
-        startR * Math.cos(startPhi),
-        startR * Math.sin(startPhi) * Math.sin(startTheta)
-      );
-      const end = new THREE.Vector3(
-        endR * Math.sin(endPhi) * Math.cos(endTheta),
-        endR * Math.cos(endPhi),
-        endR * Math.sin(endPhi) * Math.sin(endTheta)
-      );
+      const sT = Math.random() * Math.PI * 2;
+      const eT = sT + Math.PI * 0.5 + Math.random() * Math.PI * 0.8;
+      const sP = Math.acos(2 * Math.random() - 1);
+      const eP = Math.acos(2 * Math.random() - 1);
+      const sR = 2.55;
+      const eR = 2.55;
+      const start = new THREE.Vector3(sR * Math.sin(sP) * Math.cos(sT), sR * Math.cos(sP), sR * Math.sin(sP) * Math.sin(sT));
+      const end = new THREE.Vector3(eR * Math.sin(eP) * Math.cos(eT), eR * Math.cos(eP), eR * Math.sin(eP) * Math.sin(eT));
       const mid = start.clone().add(end).multiplyScalar(0.5).normalize().multiplyScalar(3.2);
       const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
       const curvePoints = curve.getPoints(50);
@@ -175,8 +176,7 @@ export default function Globe({ className }: GlobeProps) {
         blending: THREE.AdditiveBlending,
         depthWrite: false,
       });
-      const arc = new THREE.Line(arcGeometry, arcMaterial);
-      arcsGroup.add(arc);
+      arcsGroup.add(new THREE.Line(arcGeometry, arcMaterial));
     }
     scene.add(arcsGroup);
 
@@ -199,7 +199,7 @@ export default function Globe({ className }: GlobeProps) {
     }
     scene.add(ringsGroup);
 
-    // Animation
+    // Animation loop
     let animationId: number;
     const animate = () => {
       const time = Date.now() * 0.001;
@@ -220,27 +220,27 @@ export default function Globe({ className }: GlobeProps) {
     animate();
 
     const handleResize = () => {
-      const w = container.clientWidth;
-      const h = container.clientHeight;
-      camera.aspect = w / h;
+      camera.aspect = container.clientWidth / container.clientHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
+      renderer.setSize(container.clientWidth, container.clientHeight);
     };
     window.addEventListener('resize', handleResize);
 
+    // Cleanup
     return () => {
+      mountedRef.current = false;
       cancelAnimationFrame(animationId);
       window.removeEventListener('resize', handleResize);
+      renderer.domElement.removeEventListener('webglcontextlost', handleContextLost);
+      renderer.domElement.removeEventListener('webglcontextrestored', handleContextRestored);
       renderer.dispose();
       scene.traverse((obj) => {
         if (obj instanceof THREE.Mesh) {
-          if (obj.geometry) obj.geometry.dispose();
-          if (obj.material) {
-            if (Array.isArray(obj.material)) {
-              obj.material.forEach((m) => m.dispose());
-            } else {
-              obj.material.dispose();
-            }
+          obj.geometry?.dispose();
+          if (Array.isArray(obj.material)) {
+            obj.material.forEach((m) => m.dispose());
+          } else {
+            obj.material?.dispose();
           }
         }
       });
@@ -248,15 +248,12 @@ export default function Globe({ className }: GlobeProps) {
         container.removeChild(renderer.domElement);
       }
     };
-  }, [reducedMotion]);
+  }, []);
 
   return (
     <div
       ref={containerRef}
-      className={cn(
-        'w-full h-[400px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-purple-500/10',
-        className
-      )}
+      className={cn('w-full h-[400px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-purple-500/10', className)}
     />
   );
 }
