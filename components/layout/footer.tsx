@@ -9,7 +9,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="py-12 bg-[#08080d] border-t border-white/5">
+    <footer className="py-12 bg-[#08080d] border-t border-white/5" aria-label="Footer">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div className="md:col-span-2">
@@ -26,6 +26,7 @@ export default function Footer() {
               {['About', 'Projects', 'Technology', 'Global', 'Contact'].map((item) => (
                 <button
                   key={item}
+                  type="button"
                   onClick={() => scrollTo(item.toLowerCase())}
                   className="text-left text-gray-500 hover:text-gray-300 text-sm bg-transparent border-none cursor-pointer transition-colors"
                 >
@@ -56,10 +57,15 @@ export default function Footer() {
               >
                 <FiGithub className="w-5 h-5" />
               </a>
-              {/* Uncomment when LinkedIn URL is available */}
-              {/* <a href="#" aria-label="LinkedIn" className="text-gray-500 hover:text-white transition-colors">
+              <a
+                href="https://www.linkedin.com/in/usmannmurtazaa"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="text-gray-500 hover:text-white transition-colors"
+              >
                 <FiLinkedin className="w-5 h-5" />
-              </a> */}
+              </a>
             </div>
           </div>
         </div>

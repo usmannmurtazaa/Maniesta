@@ -61,7 +61,11 @@ export default function TracingBeam({ children, className }: TracingBeamProps) {
 
   return (
     <div ref={containerRef} className={cn('relative', className)}>
-      <div className="absolute left-5 top-0 bottom-0 w-[2px] bg-white/5 overflow-hidden">
+      {/* Decorative beam line */}
+      <div
+        aria-hidden="true"
+        className="absolute left-5 top-0 bottom-0 w-[2px] bg-white/5 overflow-hidden"
+      >
         <div
           ref={progressRef}
           className="absolute top-0 left-0 w-full"
@@ -69,13 +73,16 @@ export default function TracingBeam({ children, className }: TracingBeamProps) {
             height: '0%',
             background: 'linear-gradient(180deg, #22d3ee, #3b82f6, #8b5cf6, #d946ef)',
             borderRadius: '1px',
+            willChange: 'height',
           }}
         />
       </div>
+      {/* Decorative dot */}
       <div
         ref={dotRef}
+        aria-hidden="true"
         className="absolute left-[19px] -translate-x-1/2 w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_12px_#8b5cf6,0_0_24px_#8b5cf6] z-10"
-        style={{ top: '0%' }}
+        style={{ top: '0%', willChange: 'top' }}
       />
       <div className="pl-14 md:pl-16">{children}</div>
     </div>

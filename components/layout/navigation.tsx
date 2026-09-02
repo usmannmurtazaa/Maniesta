@@ -23,6 +23,15 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Close mobile menu on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -31,6 +40,7 @@ export default function Navigation() {
 
   return (
     <nav
+      aria-label="Main navigation"
       className={cn(
         'fixed top-0 left-0 right-0 z-[999] transition-all duration-300 backdrop-blur-xl bg-[#0a0a0f]/70 border-b border-white/5',
         scrolled ? 'py-3' : 'py-5'
@@ -38,6 +48,7 @@ export default function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between">
         <button
+          type="button"
           onClick={() => scrollTo('hero')}
           className="flex items-center gap-2 bg-transparent border-none cursor-pointer"
           aria-label="MANIESTA home"
@@ -51,6 +62,7 @@ export default function Navigation() {
           {navItems.map((item) => (
             <button
               key={item.id}
+              type="button"
               onClick={() => scrollTo(item.id)}
               className="relative text-sm font-medium text-gray-400 hover:text-white bg-transparent border-none cursor-pointer transition-colors after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gradient-to-r after:from-cyan-400 after:to-purple-500 after:transition-all after:duration-300 hover:after:w-full"
             >
@@ -58,6 +70,7 @@ export default function Navigation() {
             </button>
           ))}
           <button
+            type="button"
             onClick={() => scrollTo('projects')}
             className="px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-500 hover:shadow-lg hover:shadow-purple-500/30 transition-all cursor-pointer"
           >
@@ -66,9 +79,11 @@ export default function Navigation() {
         </div>
 
         <button
+          type="button"
           className="md:hidden text-gray-300 bg-transparent border-none cursor-pointer p-2"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
+          aria-expanded={mobileOpen}
         >
           <svg
             width="24"
@@ -97,6 +112,7 @@ export default function Navigation() {
               {navItems.map((item) => (
                 <button
                   key={item.id}
+                  type="button"
                   onClick={() => scrollTo(item.id)}
                   className="text-left text-gray-300 hover:text-white bg-transparent border-none cursor-pointer py-3 px-4 text-base font-medium transition-colors rounded-lg hover:bg-white/5"
                 >
@@ -104,6 +120,7 @@ export default function Navigation() {
                 </button>
               ))}
               <button
+                type="button"
                 onClick={() => scrollTo('projects')}
                 className="mt-3 px-5 py-3 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-500 cursor-pointer"
               >

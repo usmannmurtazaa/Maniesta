@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import SectionHeading from '@/components/ui/section-heading';
-import Globe from '@/components/global/globe';
+import Globe from '@/components/global/globe-wrapper';
 import DottedGlowBackground from '@/components/ui/dotted-glow-background';
 
 export default function GlobalSection() {
@@ -33,7 +33,10 @@ export default function GlobalSection() {
               standards and performance optimization.
             </p>
             <div className="flex items-center gap-3 text-sm text-gray-500">
-              <span className="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+              <span
+                className="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-pulse"
+                aria-hidden="true"
+              />
               <span>Live globe rendering — interactive 3D visualization</span>
             </div>
           </motion.div>
@@ -44,7 +47,9 @@ export default function GlobalSection() {
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.7, delay: 0.3 }}
           >
-            <Globe className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-purple-500/10" />
+            <div aria-label="Interactive 3D globe showing global reach">
+              <Globe className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-purple-500/10" />
+            </div>
           </motion.div>
         </div>
       </div>

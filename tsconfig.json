@@ -12,6 +12,7 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
+    "baseUrl": ".",
     "plugins": [
       {
         "name": "next"
@@ -20,7 +21,8 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "target": "ES2017"
+    "target": "ES2017",
+    "forceConsistentCasingInFileNames": true
   },
   "include": [
     "next-env.d.ts",

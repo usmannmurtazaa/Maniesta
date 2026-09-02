@@ -1,16 +1,18 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { cn } from '@/lib/utils';
 
-interface GlobeProps {
+interface ThreeGlobeProps {
   className?: string;
 }
 
-export default function Globe({ className }: GlobeProps) {
+export default function ThreeGlobe({ className }: ThreeGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mountedRef = useRef(false);
+  const animationRef = useRef<number>();
+  const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
     if (mountedRef.current) return;
@@ -22,7 +24,12 @@ export default function Globe({ className }: GlobeProps) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+    const camera = new THREE.PerspectiveCamera(
+      45,
+      container.clientWidth / container.clientHeight,
+      0.1,
+      100
+    );
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
       antialias: !reducedMotion,
@@ -34,7 +41,7 @@ export default function Globe({ className }: GlobeProps) {
     container.appendChild(renderer.domElement);
     camera.position.z = 8;
 
-    // Handle context loss
+    // Context loss handling
     const handleContextLost = (event: Event) => {
       event.preventDefault();
       renderer.dispose();
@@ -45,7 +52,7 @@ export default function Globe({ className }: GlobeProps) {
     renderer.domElement.addEventListener('webglcontextlost', handleContextLost, false);
     renderer.domElement.addEventListener('webglcontextrestored', handleContextRestored, false);
 
-    // Globe
+    // Globe sphere
     const globeGeometry = new THREE.SphereGeometry(2.5, 64, 64);
     const globeMaterial = new THREE.MeshPhongMaterial({
       color: 0x1a1a2e,
@@ -57,7 +64,7 @@ export default function Globe({ className }: GlobeProps) {
     const globe = new THREE.Mesh(globeGeometry, globeMaterial);
     scene.add(globe);
 
-    // Wireframe
+    // Wireframe overlay
     const wireGeometry = new THREE.SphereGeometry(2.52, 32, 32);
     const wireMaterial = new THREE.MeshBasicMaterial({
       color: 0x8b5cf6,
@@ -68,7 +75,7 @@ export default function Globe({ className }: GlobeProps) {
     const wireframe = new THREE.Mesh(wireGeometry, wireMaterial);
     scene.add(wireframe);
 
-    // Points
+    // Points with color palette
     const pointsCount = reducedMotion ? 100 : 300;
     const pointsGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(pointsCount * 3);
@@ -105,7 +112,7 @@ export default function Globe({ className }: GlobeProps) {
     const points = new THREE.Points(pointsGeometry, pointsMaterial);
     scene.add(points);
 
-    // Atmospheric glow
+    // Atmospheric glow (gradient shader)
     const glowGeometry = new THREE.SphereGeometry(2.7, 64, 64);
     const glowMaterial = new THREE.ShaderMaterial({
       uniforms: {
@@ -152,7 +159,7 @@ export default function Globe({ className }: GlobeProps) {
     pointLight2.position.set(4, -1, 2);
     scene.add(pointLight2);
 
-    // Arcs
+    // Arcs (connections)
     const arcsGroup = new THREE.Group();
     const arcCount = reducedMotion ? 6 : 12;
     const arcColors = [0x22d3ee, 0x3b82f6, 0x8b5cf6, 0xa855f7, 0xd946ef];
@@ -163,8 +170,16 @@ export default function Globe({ className }: GlobeProps) {
       const eP = Math.acos(2 * Math.random() - 1);
       const sR = 2.55;
       const eR = 2.55;
-      const start = new THREE.Vector3(sR * Math.sin(sP) * Math.cos(sT), sR * Math.cos(sP), sR * Math.sin(sP) * Math.sin(sT));
-      const end = new THREE.Vector3(eR * Math.sin(eP) * Math.cos(eT), eR * Math.cos(eP), eR * Math.sin(eP) * Math.sin(eT));
+      const start = new THREE.Vector3(
+        sR * Math.sin(sP) * Math.cos(sT),
+        sR * Math.cos(sP),
+        sR * Math.sin(sP) * Math.sin(sT)
+      );
+      const end = new THREE.Vector3(
+        eR * Math.sin(eP) * Math.cos(eT),
+        eR * Math.cos(eP),
+        eR * Math.sin(eP) * Math.sin(eT)
+      );
       const mid = start.clone().add(end).multiplyScalar(0.5).normalize().multiplyScalar(3.2);
       const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
       const curvePoints = curve.getPoints(50);
@@ -200,8 +215,8 @@ export default function Globe({ className }: GlobeProps) {
     scene.add(ringsGroup);
 
     // Animation loop
-    let animationId: number;
     const animate = () => {
+      if (!isInView) return; // pause rendering when offscreen
       const time = Date.now() * 0.001;
       globe.rotation.y += reducedMotion ? 0.002 : 0.004;
       wireframe.rotation.y = globe.rotation.y;
@@ -215,9 +230,36 @@ export default function Globe({ className }: GlobeProps) {
       pointLight2.position.x = Math.cos(time * 0.3) * 3;
       pointLight2.position.z = Math.sin(time * 0.3) * 3;
       renderer.render(scene, camera);
-      animationId = requestAnimationFrame(animate);
+      animationRef.current = requestAnimationFrame(animate);
     };
-    animate();
+
+    const startAnimation = () => {
+      if (!animationRef.current) {
+        animationRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    const stopAnimation = () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = undefined;
+      }
+    };
+
+    // IntersectionObserver to pause/resume
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        setIsInView(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          startAnimation();
+        } else {
+          stopAnimation();
+        }
+      },
+      { rootMargin: '100px' }
+    );
+    observer.observe(container);
 
     const handleResize = () => {
       camera.aspect = container.clientWidth / container.clientHeight;
@@ -229,7 +271,8 @@ export default function Globe({ className }: GlobeProps) {
     // Cleanup
     return () => {
       mountedRef.current = false;
-      cancelAnimationFrame(animationId);
+      stopAnimation();
+      observer.disconnect();
       window.removeEventListener('resize', handleResize);
       renderer.domElement.removeEventListener('webglcontextlost', handleContextLost);
       renderer.domElement.removeEventListener('webglcontextrestored', handleContextRestored);
@@ -248,12 +291,15 @@ export default function Globe({ className }: GlobeProps) {
         container.removeChild(renderer.domElement);
       }
     };
-  }, []);
+  }, [isInView]); // re-run effect when isInView changes
 
   return (
     <div
       ref={containerRef}
-      className={cn('w-full h-[400px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-purple-500/10', className)}
+      className={cn(
+        'w-full h-[400px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-purple-500/10',
+        className
+      )}
     />
   );
 }

@@ -12,21 +12,27 @@ interface LampContainerProps {
 export default function LampContainer({ children, className }: LampContainerProps) {
   return (
     <div className={cn('relative flex flex-col items-center w-full', className)}>
+      {/* Glow layer */}
       <div
+        aria-hidden="true"
         className="absolute -top-20 left-1/2 -translate-x-1/2 w-[600px] h-[400px] pointer-events-none"
         style={{
           background:
             'radial-gradient(ellipse at top, rgba(34,211,238,0.25) 0%, rgba(59,130,246,0.15) 30%, transparent 70%)',
           filter: 'blur(60px)',
           animation: 'lampPulse 4s ease-in-out infinite',
+          willChange: 'opacity, transform',
         }}
       />
+      {/* Beam layer */}
       <div
+        aria-hidden="true"
         className="absolute -top-10 left-1/2 -translate-x-1/2 w-[200px] h-[60px] pointer-events-none"
         style={{
           background:
             'radial-gradient(ellipse at center, rgba(34,211,238,0.3) 0%, rgba(59,130,246,0.12) 40%, transparent 70%)',
           filter: 'blur(30px)',
+          willChange: 'opacity',
         }}
       />
       <style jsx>{`

@@ -26,7 +26,7 @@ const iconMap: Record<string, JSX.Element> = {
   Motion: <SiFramer className="w-6 h-6" />,
   'Three.js': <SiThreedotjs className="w-6 h-6" />,
   Firebase: <SiFirebase className="w-6 h-6" />,
-  'AI APIs': <FiCpu className="w-6 h-6" />, // replaced SiOpenai with FiCpu
+  'AI APIs': <FiCpu className="w-6 h-6" />,
   'REST APIs': <TbApi className="w-6 h-6" />,
   'Web APIs': <FiGlobe className="w-6 h-6" />,
   Git: <SiGit className="w-6 h-6" />,
@@ -50,6 +50,9 @@ export default function TechCard({ name, index }: TechCardProps) {
       transition={{ duration: 0.4, delay: index * 0.04 }}
       whileHover={{ y: -6, scale: 1.05 }}
       className="p-5 rounded-2xl border border-white/10 bg-white/5 text-center transition-all duration-300 hover:border-purple-500/30 hover:bg-purple-500/5 hover:shadow-glow-purple cursor-default select-none"
+      role="listitem"
+      aria-label={name}
+      title={name}
     >
       <div className="text-2xl mb-2 text-blue-400 flex justify-center">{icon}</div>
       <div className="text-sm font-semibold text-white">{name}</div>

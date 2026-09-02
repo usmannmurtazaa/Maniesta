@@ -18,9 +18,9 @@ interface CardItemProps {
   children: ReactNode;
   className?: string;
   translateZ?: number;
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
   style?: React.CSSProperties;
-  [key: string]: any;
+  [key: string]: any; // still needed for arbitrary props, but we'll use it carefully
 }
 
 export function CardContainer({ children, className, onClick }: CardContainerProps) {
@@ -28,7 +28,14 @@ export function CardContainer({ children, className, onClick }: CardContainerPro
   const [transform, setTransform] = useState('');
   const [glow, setGlow] = useState('');
 
+  // Check for reduced motion and touch device
+  const prefersReducedMotion =
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouchDevice =
+    typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches;
+
   const handleMouseMove = (e: React.MouseEvent) => {
+    if (prefersReducedMotion || isTouchDevice) return;
     const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
     const x = e.clientX - rect.left;
@@ -90,11 +97,16 @@ export function CardItem({
 }: CardItemProps) {
   const [isHovered, setIsHovered] = useState(false);
 
+  // Respect reduced motion for depth effect
+  const prefersReducedMotion =
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const effectiveTranslateZ = prefersReducedMotion ? 0 : translateZ;
+
   return (
     <Tag
       className={cn(className)}
       style={{
-        transform: isHovered ? `translateZ(${translateZ}px)` : 'translateZ(0px)',
+        transform: isHovered ? `translateZ(${effectiveTranslateZ}px)` : 'translateZ(0px)',
         transition: 'transform 0.3s ease',
         transformStyle: 'preserve-3d',
         ...style,

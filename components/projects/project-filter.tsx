@@ -17,11 +17,16 @@ export default function ProjectFilter({ activeFilter, onFilterChange }: ProjectF
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
       className="flex flex-wrap gap-3 justify-center mb-10"
+      role="group"
+      aria-label="Filter projects by category"
     >
       {categories.map((cat) => (
         <button
           key={cat}
+          type="button"
           onClick={() => onFilterChange(cat)}
+          aria-pressed={activeFilter === cat}
+          aria-label={`Filter by ${cat}`}
           className={cn(
             'px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer whitespace-nowrap',
             activeFilter === cat

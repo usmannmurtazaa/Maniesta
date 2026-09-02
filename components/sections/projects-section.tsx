@@ -1,81 +1,105 @@
 'use client';
 
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Navigation from '@/components/layout/navigation';
-import Footer from '@/components/layout/footer';
-import HeroSection from '@/components/sections/hero-section';
-import ProjectsSection from '@/components/sections/projects-section';
-import GlobalSection from '@/components/sections/global-section';
-import TechnologySection from '@/components/sections/technology-section';
-import AboutSection from '@/components/sections/about-section';
-import ContactSection from '@/components/sections/contact-section';
-import TracingBeam from '@/components/ui/tracing-beam';
+import { projects, Project } from '@/data/projects';
+import ProjectCard from '@/components/projects/project-card';
+import ProjectFilter from '@/components/projects/project-filter';
+import SectionHeading from '@/components/ui/section-heading';
+import DottedGlowBackground from '@/components/ui/dotted-glow-background';
 
-export default function HomePage() {
-  const [loading, setLoading] = useState(true);
+// Lazy load HeroParallax only when needed (heavy animation)
+const HeroParallax = lazy(() => import('@/components/projects/hero-parallax'));
+
+export default function ProjectsSection() {
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
+    if (activeFilter === 'All') {
+      setFilteredProjects(projects);
+    } else {
+      setFilteredProjects(projects.filter((p) => p.category.includes(activeFilter)));
+    }
+  }, [activeFilter]);
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', background: '#0a0a0f' }}>
-      <Navigation />
+    <section id="projects" className="relative py-20 md:py-28 bg-[#0a0a12]">
+      <DottedGlowBackground className="opacity-20" />
 
-      <AnimatePresence>
-        {loading ? (
-          <motion.div
-            key="loader"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-[10000] flex items-center justify-center bg-[#0a0a0f]"
-          >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
-              style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '50%',
-                border: '3px solid rgba(139,92,246,0.2)',
-                borderTopColor: '#8b5cf6',
-                boxShadow: '0 0 30px rgba(139,92,246,0.3)',
-              }}
-            />
-          </motion.div>
-        ) : (
-          <motion.main
-            key="main"
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.02 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-          >
-            <HeroSection />
-            <TracingBeam>
-              <ProjectsSection />
-            </TracingBeam>
-            <TracingBeam>
-              <GlobalSection />
-            </TracingBeam>
-            <TracingBeam>
-              <TechnologySection />
-            </TracingBeam>
-            <TracingBeam>
-              <AboutSection />
-            </TracingBeam>
-            <TracingBeam>
-              <ContactSection />
-            </TracingBeam>
-          </motion.main>
-        )}
-      </AnimatePresence>
+      <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
+        <SectionHeading
+          label="The Collection"
+          title="Built to Solve Real Problems."
+          description="Maniesta brings together a growing collection of applications built for productivity, education, AI, utilities, entertainment, business and everyday digital experiences."
+        />
 
-      <Footer />
-    </div>
+        {/* Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14"
+        >
+          {[
+            { value: '12+', label: 'Digital Products' },
+            { value: 'Multiple', label: 'Technology Domains' },
+            { value: 'AI', label: 'Powered Solutions' },
+            { value: 'Global', label: 'Ready Experiences' },
+          ].map((stat, i) => (
+            <div
+              key={i}
+              className="text-center p-6 rounded-2xl glass glass-hover border border-white/10"
+            >
+              <div className="text-3xl md:text-4xl font-bold font-display gradient-text mb-2">
+                {stat.value}
+              </div>
+              <div className="text-sm text-gray-500 font-medium">{stat.label}</div>
+            </div>
+          ))}
+        </motion.div>
+
+        <ProjectFilter activeFilter={activeFilter} onFilterChange={setActiveFilter} />
+
+        {/* Filtered grid */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"
+        >
+          <AnimatePresence>
+            {filteredProjects.map((project) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                transition={{ duration: 0.4 }}
+              >
+                <ProjectCard project={project} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Parallax showcase */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.7 }}
+        >
+          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 text-center mb-6">
+            Scroll Through the Ecosystem
+          </p>
+          <Suspense fallback={<div className="h-96" />}>
+            <HeroParallax projects={projects} />
+          </Suspense>
+        </motion.div>
+      </div>
+    </section>
   );
 }

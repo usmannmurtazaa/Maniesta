@@ -17,7 +17,7 @@ export default function TextHoverEffect({ text, duration = 0, className }: TextH
   const [maskPosition, setMaskPosition] = useState({ cx: '50%', cy: '50%' });
 
   useEffect(() => {
-    if (svgRef.current && cursor.x !== null && cursor.y !== null) {
+    if (svgRef.current && cursor.x !== 0 && cursor.y !== 0) {
       const svgRect = svgRef.current.getBoundingClientRect();
       const cxPercentage = ((cursor.x - svgRect.left) / svgRect.width) * 100;
       const cyPercentage = ((cursor.y - svgRect.top) / svgRect.height) * 100;
@@ -28,8 +28,9 @@ export default function TextHoverEffect({ text, duration = 0, className }: TextH
     }
   }, [cursor]);
 
-  const MotionRadialGradient = motion.radialGradient as any;
-  const MotionText = motion.text as any;
+  // Properly typed motion components
+  const MotionRadialGradient = motion.radialGradient;
+  const MotionText = motion.text;
 
   return (
     <svg
@@ -42,6 +43,8 @@ export default function TextHoverEffect({ text, duration = 0, className }: TextH
       onMouseLeave={() => setHovered(false)}
       onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
       className={cn('select-none block', className)}
+      role="img"
+      aria-label={text}
     >
       <defs>
         <linearGradient id="textGradient" gradientUnits="userSpaceOnUse" cx="50%" cy="50%" r="25%">

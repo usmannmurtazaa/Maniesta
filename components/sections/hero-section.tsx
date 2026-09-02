@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import WavyBackground from '@/components/ui/wavy-background';
 import LampContainer from '@/components/ui/lamp';
@@ -11,8 +11,16 @@ import AnimatedButton from '@/components/ui/animated-button';
 
 export default function HeroSection() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    setIsTouchDevice(window.matchMedia('(hover: none)').matches);
+    setPrefersReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
+    if (isTouchDevice || prefersReducedMotion) return;
     setMousePos({
       x: (e.clientX / window.innerWidth - 0.5) * 20,
       y: (e.clientY / window.innerHeight - 0.5) * 10,
@@ -29,7 +37,11 @@ export default function HeroSection() {
       id="hero"
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
       onMouseMove={handleMouseMove}
+      aria-label="Hero"
     >
+      {/* Semantic h1 for SEO (visually hidden) */}
+      <h1 className="sr-only">MANIESTA – Digital Products & Interactive Experiences</h1>
+
       <WavyBackground
         colors={['#22d3ee', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7', '#d946ef']}
         blur={20}
@@ -42,7 +54,10 @@ export default function HeroSection() {
       <div
         className="relative z-10 text-center px-4"
         style={{
-          transform: `translate(${mousePos.x * 0.3}px, ${mousePos.y * 0.4}px)`,
+          transform:
+            isTouchDevice || prefersReducedMotion
+              ? 'none'
+              : `translate(${mousePos.x * 0.3}px, ${mousePos.y * 0.4}px)`,
           transition: 'transform 0.15s ease-out',
         }}
       >
@@ -53,10 +68,10 @@ export default function HeroSection() {
         <SparklesCore
           className="w-64 h-16 mx-auto mt-4"
           particleColor="#8b5cf6"
-          particleDensity={25}
+          particleDensity={isTouchDevice ? 15 : 25}
           minSize={0.3}
           maxSize={1.2}
-          speed={0.6}
+          speed={prefersReducedMotion ? 0 : 0.6}
         />
 
         <motion.h2
@@ -93,21 +108,23 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-center"
-      >
+      {!prefersReducedMotion && (
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="text-white/40 text-xs tracking-[0.15em] uppercase"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.2 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-center"
         >
-          Scroll to explore
-          <div className="w-[1px] h-[30px] bg-white/30 mx-auto mt-2" />
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+            className="text-white/40 text-xs tracking-[0.15em] uppercase"
+          >
+            Scroll to explore
+            <div className="w-[1px] h-[30px] bg-white/30 mx-auto mt-2" />
+          </motion.div>
         </motion.div>
-      </motion.div>
+      )}
     </section>
   );
 }

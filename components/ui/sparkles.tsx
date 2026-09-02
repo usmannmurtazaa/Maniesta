@@ -13,6 +13,17 @@ interface SparklesCoreProps {
   speed?: number;
 }
 
+interface Particle {
+  x: number;
+  y: number;
+  size: number;
+  alpha: number;
+  vx: number;
+  vy: number;
+  twinkleSpeed: number;
+  phase: number;
+}
+
 export default function SparklesCore({
   background = 'transparent',
   minSize = 0.4,
@@ -24,7 +35,7 @@ export default function SparklesCore({
 }: SparklesCoreProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
-  const particlesRef = useRef<any[]>([]);
+  const particlesRef = useRef<Particle[]>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -32,9 +43,10 @@ export default function SparklesCore({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const width = (canvas.width = canvas.offsetWidth);
-    const height = (canvas.height = canvas.offsetHeight);
-    const particles: any[] = [];
+    let width = (canvas.width = canvas.offsetWidth);
+    let height = (canvas.height = canvas.offsetHeight);
+
+    const particles: Particle[] = [];
     for (let i = 0; i < particleDensity; i++) {
       particles.push({
         x: Math.random() * width,
@@ -94,15 +106,15 @@ export default function SparklesCore({
       staticDraw();
     }
 
-    const handleResize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    };
-    window.addEventListener('resize', handleResize);
+    const resizeObserver = new ResizeObserver(() => {
+      width = canvas.width = canvas.offsetWidth;
+      height = canvas.height = canvas.offsetHeight;
+    });
+    resizeObserver.observe(canvas);
 
     return () => {
       cancelAnimationFrame(animationRef.current!);
-      window.removeEventListener('resize', handleResize);
+      resizeObserver.disconnect();
     };
   }, [minSize, maxSize, particleDensity, particleColor, speed]);
 

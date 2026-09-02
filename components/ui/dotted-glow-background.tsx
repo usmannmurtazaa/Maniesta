@@ -16,6 +16,17 @@ interface DottedGlowBackgroundProps {
   speedScale?: number;
 }
 
+interface Dot {
+  baseX: number;
+  baseY: number;
+  x: number;
+  y: number;
+  speedX: number;
+  speedY: number;
+  phase: number;
+  alpha: number;
+}
+
 function hexToRgb(hex: string) {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result
@@ -49,7 +60,7 @@ export default function DottedGlowBackground({
     let width = (canvas.width = canvas.offsetWidth);
     let height = (canvas.height = canvas.offsetHeight);
 
-    const dots: any[] = [];
+    const dots: Dot[] = [];
     const spacing = gap || 12;
     const dotRadius = radius || 1.4;
 
@@ -145,15 +156,15 @@ export default function DottedGlowBackground({
       staticDraw();
     }
 
-    const handleResize = () => {
+    const resizeObserver = new ResizeObserver(() => {
       width = canvas.width = canvas.offsetWidth;
       height = canvas.height = canvas.offsetHeight;
-    };
-    window.addEventListener('resize', handleResize);
+    });
+    resizeObserver.observe(canvas);
 
     return () => {
       cancelAnimationFrame(animationRef.current!);
-      window.removeEventListener('resize', handleResize);
+      resizeObserver.disconnect();
     };
   }, [
     opacity,

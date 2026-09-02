@@ -10,6 +10,7 @@ interface AnimatedButtonProps {
   variant?: 'primary' | 'secondary';
   className?: string;
   href?: string;
+  ariaLabel?: string;
 }
 
 export default function AnimatedButton({
@@ -18,6 +19,7 @@ export default function AnimatedButton({
   variant = 'primary',
   className,
   href,
+  ariaLabel,
 }: AnimatedButtonProps) {
   const baseClasses =
     'inline-flex items-center gap-2 rounded-full font-semibold text-sm transition-all duration-300 cursor-pointer whitespace-nowrap';
@@ -40,6 +42,7 @@ export default function AnimatedButton({
         target={href.startsWith('http') ? '_blank' : undefined}
         rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
         className={cn(baseClasses, variantClasses, className)}
+        aria-label={ariaLabel}
       >
         {content}
       </a>
@@ -47,7 +50,12 @@ export default function AnimatedButton({
   }
 
   return (
-    <button onClick={onClick} className={cn(baseClasses, variantClasses, className)}>
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(baseClasses, variantClasses, className)}
+      aria-label={ariaLabel}
+    >
       {content}
     </button>
   );

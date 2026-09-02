@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { technologies } from '@/data/projects';
+import { technologies } from '@/data/technologies';
 import SectionHeading from '@/components/ui/section-heading';
 import TechCard from '@/components/technology/tech-card';
 import DottedGlowBackground from '@/components/ui/dotted-glow-background';

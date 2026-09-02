@@ -54,8 +54,8 @@ export default function HeroParallax({ projects }: HeroParallaxProps) {
           {firstRow.map((project) => (
             <div
               key={project.id}
-              className="flex-shrink-0 w-[30rem]"
-              style={{ transformStyle: 'preserve-3d' }}
+              className="flex-shrink-0 w-[20rem] md:w-[30rem]"
+              style={{ transformStyle: 'preserve-3d', willChange: 'transform' }}
             >
               <ProjectCard project={project} />
             </div>
@@ -65,8 +65,8 @@ export default function HeroParallax({ projects }: HeroParallaxProps) {
           {secondRow.map((project) => (
             <div
               key={project.id}
-              className="flex-shrink-0 w-[30rem]"
-              style={{ transformStyle: 'preserve-3d' }}
+              className="flex-shrink-0 w-[20rem] md:w-[30rem]"
+              style={{ transformStyle: 'preserve-3d', willChange: 'transform' }}
             >
               <ProjectCard project={project} />
             </div>
@@ -76,8 +76,8 @@ export default function HeroParallax({ projects }: HeroParallaxProps) {
           {thirdRow.map((project) => (
             <div
               key={project.id}
-              className="flex-shrink-0 w-[30rem]"
-              style={{ transformStyle: 'preserve-3d' }}
+              className="flex-shrink-0 w-[20rem] md:w-[30rem]"
+              style={{ transformStyle: 'preserve-3d', willChange: 'transform' }}
             >
               <ProjectCard project={project} />
             </div>

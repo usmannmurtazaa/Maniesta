@@ -9,6 +9,8 @@ interface SectionHeadingProps {
   description?: string;
   className?: string;
   align?: 'center' | 'left';
+  id?: string;
+  headingLevel?: 'h1' | 'h2' | 'h3';
 }
 
 export default function SectionHeading({
@@ -17,6 +19,8 @@ export default function SectionHeading({
   description,
   className,
   align = 'center',
+  id,
+  headingLevel: HeadingTag = 'h2',
 }: SectionHeadingProps) {
   return (
     <motion.div
@@ -27,9 +31,12 @@ export default function SectionHeading({
       className={cn('mb-12', align === 'center' ? 'text-center' : 'text-left', className)}
     >
       <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-3">{label}</p>
-      <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-4">
+      <HeadingTag
+        id={id}
+        className="font-display text-3xl md:text-5xl font-bold tracking-tight text-white mb-4"
+      >
         {title}
-      </h2>
+      </HeadingTag>
       {description && (
         <p
           className={cn(

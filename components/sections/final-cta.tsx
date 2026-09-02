@@ -13,7 +13,11 @@ export default function FinalCTASection() {
   };
 
   return (
-    <section id="contact" className="relative py-20 md:py-28 bg-[#0a0a12] overflow-hidden">
+    <section
+      id="contact"
+      aria-label="Final call to action"
+      className="relative py-20 md:py-28 bg-[#0a0a12] overflow-hidden"
+    >
       <DottedGlowBackground className="opacity-25" />
       <SparklesCore
         className="w-full h-40 absolute inset-0"
@@ -55,8 +59,12 @@ export default function FinalCTASection() {
           <AnimatedButton onClick={() => scrollTo('projects')}>
             Explore Projects <FiArrowRight className="w-5 h-5" />
           </AnimatedButton>
-          <AnimatedButton variant="secondary" href="https://Usmanmurtaza.netlify.app/">
-            Usman Murtaza
+          <AnimatedButton
+            variant="secondary"
+            href="https://usmanmurtaza.netlify.app/"
+            ariaLabel="Visit Usman Murtaza's website"
+          >
+            Usman Murtaza <FiExternalLink className="w-4 h-4" />
           </AnimatedButton>
         </motion.div>
       </div>

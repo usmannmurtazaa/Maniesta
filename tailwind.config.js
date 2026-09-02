@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './lib/**/*.{ts,tsx}'],
+  content: [
+    './app/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './lib/**/*.{ts,tsx}',
+  ],
   darkMode: 'class',
   theme: {
     extend: {
@@ -29,7 +33,8 @@ module.exports = {
         'glow-cyan': '0 0 40px rgba(34,211,238,0.15)',
         'glow-purple': '0 0 40px rgba(139,92,246,0.15)',
         'glow-magenta': '0 0 40px rgba(217,70,239,0.12)',
-        'glow-combined': '0 8px 32px rgba(139,92,246,0.12), 0 0 60px rgba(34,211,238,0.05)',
+        'glow-combined':
+          '0 8px 32px rgba(139,92,246,0.12), 0 0 60px rgba(34,211,238,0.05)',
       },
     },
   },
