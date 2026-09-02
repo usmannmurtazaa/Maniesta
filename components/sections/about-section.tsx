@@ -62,10 +62,10 @@ export default function AboutSection() {
 
           <div className="relative z-10 space-y-6">
             <h3 className="font-display text-xl md:text-2xl font-semibold text-white">
-              Who is behind Maniesta?
+              Who is behind <span className="font-semibold text-blue-400">Maniesta</span>?
             </h3>
             <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-              I&apos;m <span className="font-semibold text-white">Usman Murtaza</span>, a Computer
+              I&apos;m <span className="font-semibold text-blue-400">Usman Murtaza</span>, a Computer
               Science student and web developer focused on building modern digital products and
               interactive web applications.
             </p>
