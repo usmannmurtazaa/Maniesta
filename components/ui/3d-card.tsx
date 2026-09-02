@@ -31,8 +31,7 @@ export function CardContainer({ children, className, onClick }: CardContainerPro
   // Check for reduced motion and touch device
   const prefersReducedMotion =
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isTouchDevice =
-    typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches;
+  const isTouchDevice = typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches;
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (prefersReducedMotion || isTouchDevice) return;

@@ -49,7 +49,12 @@ export default async function ProjectDetailPage({ params }: Props) {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://maniesta.netlify.app' },
-      { '@type': 'ListItem', position: 2, name: 'Projects', item: 'https://maniesta.netlify.app/projects' },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Projects',
+        item: 'https://maniesta.netlify.app/projects',
+      },
       {
         '@type': 'ListItem',
         position: 3,

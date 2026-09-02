@@ -6,12 +6,9 @@ import emailjs from '@emailjs/browser';
 // NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
 // NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
 // ============================================
-const EMAILJS_SERVICE_ID =
-  process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID';
-const EMAILJS_TEMPLATE_ID =
-  process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID';
-const EMAILJS_PUBLIC_KEY =
-  process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY';
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID';
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID';
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY';
 
 export interface EmailData {
   name: string;
@@ -29,9 +26,7 @@ export async function sendEmail(formData: EmailData) {
     EMAILJS_TEMPLATE_ID === 'YOUR_TEMPLATE_ID' ||
     EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY'
   ) {
-    console.error(
-      'Email.js credentials are not set. Please configure them in .env.local.'
-    );
+    console.error('Email.js credentials are not set. Please configure them in .env.local.');
     return { success: false, error: 'Email service is not configured' };
   }
 
