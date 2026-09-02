@@ -47,8 +47,17 @@ export default function ProjectsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(projectsListSchema) }}
       />
-      <div className="pt-24 pb-20 min-h-screen">
-        <div className="max-w-7xl mx-auto px-4">
+      <div className="pt-24 pb-20 min-h-screen relative">
+        {/* Subtle background glow */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse at top, rgba(59,130,246,0.05) 0%, transparent 60%)',
+          }}
+        />
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">All Projects</h1>
           <p className="text-gray-400 text-lg mb-8 max-w-2xl">
             Discover the full collection of digital products, tools, and experiments built by
