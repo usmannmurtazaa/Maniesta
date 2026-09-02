@@ -18,9 +18,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: '/',
   },
+  manifest: '/manifest.json',
   icons: {
-    icon: '/favicon.png',
-    apple: '/favicon.png',
+    icon: '/icon.png',
+    apple: '/icon.png',
   },
   openGraph: {
     type: 'website',
@@ -79,6 +80,15 @@ const websiteSchema = {
   },
 };
 
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Maniesta',
+  url: 'https://maniesta.netlify.app',
+  logo: 'https://maniesta.netlify.app/icon.png',
+  sameAs: ['https://github.com/usmannmurtazaa', 'https://www.linkedin.com/in/usmannmurtazaa'],
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
@@ -86,6 +96,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
         <Providers>{children}</Providers>
         <div className="noise-overlay" aria-hidden="true" />

@@ -35,14 +35,13 @@ export default function TextHoverEffect({ text, duration = 0, className }: TextH
   return (
     <svg
       ref={svgRef}
-      width="100%"
-      height="100%"
-      viewBox="0 0 300 100"
+      viewBox="0 0 800 200"
+      preserveAspectRatio="xMidYMid meet"
       xmlns="http://www.w3.org/2000/svg"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
-      className={cn('select-none block', className)}
+      className={cn('w-full h-auto select-none block', className)}
       role="img"
       aria-label={text}
     >
@@ -81,11 +80,11 @@ export default function TextHoverEffect({ text, duration = 0, className }: TextH
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
-        strokeWidth="0.3"
+        strokeWidth="0.5"
         fill="transparent"
         stroke="rgba(255,255,255,0.2)"
-        fontFamily="helvetica, sans-serif"
-        fontSize="4rem"
+        fontFamily="Helvetica, sans-serif"
+        fontSize="140"
         fontWeight="bold"
         style={{ opacity: hovered ? 0.7 : 0, transition: 'opacity 0.3s ease' }}
       >
@@ -98,11 +97,11 @@ export default function TextHoverEffect({ text, duration = 0, className }: TextH
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
-        strokeWidth="0.3"
+        strokeWidth="0.5"
         fill="transparent"
         stroke="rgba(255,255,255,0.4)"
-        fontFamily="helvetica, sans-serif"
-        fontSize="4rem"
+        fontFamily="Helvetica, sans-serif"
+        fontSize="140"
         fontWeight="bold"
         initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
         animate={{ strokeDashoffset: 0, strokeDasharray: 1000 }}
@@ -118,11 +117,11 @@ export default function TextHoverEffect({ text, duration = 0, className }: TextH
         textAnchor="middle"
         dominantBaseline="middle"
         stroke="url(#textGradient)"
-        strokeWidth="0.3"
+        strokeWidth="0.5"
         mask="url(#textMask)"
         fill="transparent"
-        fontFamily="helvetica, sans-serif"
-        fontSize="4rem"
+        fontFamily="Helvetica, sans-serif"
+        fontSize="140"
         fontWeight="bold"
       >
         {text}

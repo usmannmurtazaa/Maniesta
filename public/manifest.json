@@ -1,0 +1,24 @@
+{
+  "name": "MANIESTA – Digital Products & Interactive Experiences",
+  "short_name": "MANIESTA",
+  "description": "A collection of modern digital products, AI applications, productivity tools, education platforms, utilities and interactive web experiences.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

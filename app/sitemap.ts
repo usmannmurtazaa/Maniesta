@@ -24,7 +24,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
     changeFrequency: 'monthly',
     priority: 0.6,
-    images: project.screenshots.length > 0 ? [project.screenshots[0]] : undefined,
+    images:
+      project.screenshots.length > 0
+        ? project.screenshots.map((screenshot) => ({
+            url: `${baseUrl}${screenshot}`, // absolute URL
+            title: project.title,
+            caption: project.shortDescription || project.description,
+          }))
+        : undefined,
   }));
 
   return [...staticRoutes, ...projectRoutes];

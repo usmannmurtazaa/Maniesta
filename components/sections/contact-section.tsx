@@ -1,10 +1,37 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FiMail, FiGithub, FiLinkedin } from 'react-icons/fi';
-import DottedGlowBackground from '@/components/ui/dotted-glow-background';
+import { FiMail, FiGithub, FiLinkedin, FiArrowRight, FiMessageCircle } from 'react-icons/fi';
 import SparklesCore from '@/components/ui/sparkles';
-import AnimatedButton from '@/components/ui/animated-button';
+
+function ContactButton({
+  href,
+  icon,
+  label,
+  variant = 'solid',
+}: {
+  href: string;
+  icon: React.ReactNode;
+  label: string;
+  variant?: 'solid' | 'outline';
+}) {
+  return (
+    <a
+      href={href}
+      target={href.startsWith('mailto') ? undefined : '_blank'}
+      rel={href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
+      className={`group flex items-center gap-3 px-6 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer ${
+        variant === 'solid'
+          ? 'bg-gradient-to-r from-blue-500 via-purple-500 to-magenta-500 text-white shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/50 hover:-translate-y-0.5'
+          : 'bg-white/5 border border-white/10 text-white backdrop-blur-md hover:border-purple-500/40 hover:bg-purple-500/10 hover:shadow-glow-purple hover:-translate-y-0.5'
+      }`}
+    >
+      {icon}
+      {label}
+      <FiArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+    </a>
+  );
+}
 
 export default function ContactSection() {
   return (
@@ -13,81 +40,146 @@ export default function ContactSection() {
       aria-label="Contact"
       className="relative py-20 md:py-28 bg-[#0a0a12] overflow-hidden"
     >
-      <DottedGlowBackground className="opacity-25" />
-      <SparklesCore
-        className="w-full h-40 absolute inset-0"
-        particleColor="#8b5cf6"
-        particleDensity={15}
-        minSize={0.3}
-        maxSize={1}
-        speed={0.4}
-      />
+      {/* Enhanced multi-layer background */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {/* Aurora gradient blobs */}
+        <div
+          className="absolute top-[-20%] left-[-10%] w-[60%] h-[70%] rounded-full opacity-40 blur-3xl"
+          style={{
+            background: 'radial-gradient(circle, rgba(59,130,246,0.25) 0%, transparent 70%)',
+            animation: 'auroraFloat 8s ease-in-out infinite',
+          }}
+        />
+        <div
+          className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[70%] rounded-full opacity-40 blur-3xl"
+          style={{
+            background: 'radial-gradient(circle, rgba(139,92,246,0.25) 0%, transparent 70%)',
+            animation: 'auroraFloat 10s ease-in-out infinite reverse',
+          }}
+        />
+        {/* Subtle grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+          }}
+        />
+      </div>
 
-      <div className="max-w-4xl mx-auto px-4 md:px-6 relative z-10 text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.6 }}
-          className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-3"
-        >
-          Let&apos;s Connect
-        </motion.p>
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-4"
-        >
-          Let&apos;s Build Something.
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-gray-400 max-w-xl mx-auto mb-10"
-        >
-          Have an idea, project or collaboration in mind? I&apos;m interested in building useful
-          digital products, exploring modern technologies and working on interesting ideas.
-        </motion.p>
+      {/* Sparkles in upper area */}
+      <div className="absolute inset-x-0 top-0 h-56 pointer-events-none z-0">
+        <SparklesCore
+          className="w-full h-full"
+          particleColor="#8b5cf6"
+          particleDensity={20}
+          minSize={0.3}
+          maxSize={1.2}
+          speed={0.5}
+        />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 md:px-6 relative z-10">
+        <div className="text-center mb-12">
+          <motion.span
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-purple-500/10 border border-purple-500/30 text-xs font-semibold tracking-[0.15em] uppercase text-purple-300 mb-5"
+          >
+            <FiMessageCircle className="w-4 h-4" />
+            Let&apos;s Connect
+          </motion.span>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.7 }}
+            className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-4 gradient-text"
+          >
+            Let&apos;s Build Something.
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="text-gray-300 max-w-2xl mx-auto text-base md:text-lg"
+          >
+            Have an idea, project or collaboration in mind? I&apos;m interested in building useful
+            digital products, exploring modern technologies and working on interesting ideas.
+          </motion.p>
+        </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          transition={{ duration: 0.7, delay: 0.25 }}
+          className="max-w-3xl mx-auto"
         >
-          <AnimatedButton
-            href="mailto:maniesta01@gmail.com"
-            className="inline-flex items-center gap-2"
-            ariaLabel="Email Me"
-          >
-            <FiMail className="w-5 h-5" />
-            Email Me
-          </AnimatedButton>
-          <AnimatedButton
-            href="https://github.com/usmannmurtazaa"
-            className="inline-flex items-center gap-2"
-            variant="secondary"
-            ariaLabel="GitHub Profile"
-          >
-            <FiGithub className="w-5 h-5" />
-            GitHub
-          </AnimatedButton>
-          <AnimatedButton
-            href="https://www.linkedin.com/in/usmannmurtazaa"
-            className="inline-flex items-center gap-2"
-            variant="secondary"
-            ariaLabel="LinkedIn Profile"
-          >
-            <FiLinkedin className="w-5 h-5" />
-            LinkedIn
-          </AnimatedButton>
+          <div className="relative p-8 md:p-10 rounded-3xl bg-white/[0.04] backdrop-blur-xl border border-white/10 shadow-2xl shadow-purple-500/10">
+            {/* Gradient border */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 rounded-3xl pointer-events-none"
+              style={{
+                background:
+                  'linear-gradient(135deg, rgba(34,211,238,0.25), rgba(139,92,246,0.25), rgba(217,70,239,0.15))',
+                padding: '1px',
+                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                WebkitMaskComposite: 'xor',
+                maskComposite: 'exclude',
+              }}
+            />
+
+            <div className="relative z-10 flex flex-col items-center gap-6">
+              <p className="text-sm text-gray-300 font-medium">Reach out through any channel</p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
+                <ContactButton
+                  href="mailto:maniesta01@gmail.com"
+                  icon={<FiMail className="w-5 h-5" />}
+                  label="Email Me"
+                  variant="solid"
+                />
+                <ContactButton
+                  href="https://github.com/usmannmurtazaa"
+                  icon={<FiGithub className="w-5 h-5" />}
+                  label="GitHub"
+                  variant="outline"
+                />
+                <ContactButton
+                  href="https://www.linkedin.com/in/usmannmurtazaa"
+                  icon={<FiLinkedin className="w-5 h-5" />}
+                  label="LinkedIn"
+                  variant="outline"
+                />
+              </div>
+
+              <div className="w-full h-px bg-gradient-to-r from-transparent via-white/15 to-transparent my-2" />
+
+              <p className="text-xs text-gray-500">Typically responds within 1–2 business days</p>
+            </div>
+          </div>
         </motion.div>
       </div>
+
+      <style jsx>{`
+        @keyframes auroraFloat {
+          0%,
+          100% {
+            transform: translate(0, 0) scale(1);
+          }
+          50% {
+            transform: translate(20px, -30px) scale(1.1);
+          }
+        }
+      `}</style>
     </section>
   );
 }

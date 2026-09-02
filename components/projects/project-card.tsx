@@ -82,7 +82,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                 <span className="text-xs font-semibold tracking-wider uppercase text-white/70 bg-black/30 px-2 py-1 rounded">
                   {project.category}
                 </span>
-                <FiExternalLink className="w-4 h-4 text-white/50" />
+                <FiExternalLink className="w-4 h-4 text-white/50" aria-hidden="true" />
               </div>
             </div>
           </CardItem>
@@ -115,14 +115,16 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
           <CardItem translateZ={60} className="px-5 pb-5">
             <button
+              type="button"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 window.open(project.url, '_blank', 'noopener,noreferrer');
               }}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-500/60 to-purple-500/60 hover:shadow-lg hover:shadow-purple-500/25 transition-all cursor-pointer"
+              aria-label={`Open ${project.title} live project`}
             >
-              View Project <span>→</span>
+              View Project <span aria-hidden>→</span>
             </button>
           </CardItem>
         </CardBody>

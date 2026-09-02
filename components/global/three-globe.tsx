@@ -11,8 +11,9 @@ interface ThreeGlobeProps {
 export default function ThreeGlobe({ className }: ThreeGlobeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mountedRef = useRef(false);
-  const animationRef = useRef<number>();
-  const [isInView, setIsInView] = useState(false);
+  const animationRef = useRef<number | null>(null);
+  const isInViewRef = useRef(true); // use ref instead of state to avoid re-renders
+  const [, setForceUpdate] = useState(0); // only for initial render
 
   useEffect(() => {
     if (mountedRef.current) return;
@@ -75,7 +76,7 @@ export default function ThreeGlobe({ className }: ThreeGlobeProps) {
     const wireframe = new THREE.Mesh(wireGeometry, wireMaterial);
     scene.add(wireframe);
 
-    // Points with color palette
+    // Points
     const pointsCount = reducedMotion ? 100 : 300;
     const pointsGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(pointsCount * 3);
@@ -112,7 +113,7 @@ export default function ThreeGlobe({ className }: ThreeGlobeProps) {
     const points = new THREE.Points(pointsGeometry, pointsMaterial);
     scene.add(points);
 
-    // Atmospheric glow (gradient shader)
+    // Atmospheric glow
     const glowGeometry = new THREE.SphereGeometry(2.7, 64, 64);
     const glowMaterial = new THREE.ShaderMaterial({
       uniforms: {
@@ -159,7 +160,7 @@ export default function ThreeGlobe({ className }: ThreeGlobeProps) {
     pointLight2.position.set(4, -1, 2);
     scene.add(pointLight2);
 
-    // Arcs (connections)
+    // Arcs
     const arcsGroup = new THREE.Group();
     const arcCount = reducedMotion ? 6 : 12;
     const arcColors = [0x22d3ee, 0x3b82f6, 0x8b5cf6, 0xa855f7, 0xd946ef];
@@ -214,48 +215,33 @@ export default function ThreeGlobe({ className }: ThreeGlobeProps) {
     }
     scene.add(ringsGroup);
 
-    // Animation loop
+    // Animation loop – uses ref for inView
     const animate = () => {
-      if (!isInView) return; // pause rendering when offscreen
-      const time = Date.now() * 0.001;
-      globe.rotation.y += reducedMotion ? 0.002 : 0.004;
-      wireframe.rotation.y = globe.rotation.y;
-      points.rotation.y = globe.rotation.y;
-      glow.rotation.y = globe.rotation.y;
-      arcsGroup.rotation.y += reducedMotion ? 0.001 : 0.002;
-      ringsGroup.rotation.y += reducedMotion ? 0.0005 : 0.001;
-      ringsGroup.rotation.x += reducedMotion ? 0.0003 : 0.0006;
-      pointLight1.position.x = Math.sin(time * 0.5) * 4;
-      pointLight1.position.z = Math.cos(time * 0.5) * 4;
-      pointLight2.position.x = Math.cos(time * 0.3) * 3;
-      pointLight2.position.z = Math.sin(time * 0.3) * 3;
-      renderer.render(scene, camera);
+      if (isInViewRef.current) {
+        const time = Date.now() * 0.001;
+        globe.rotation.y += reducedMotion ? 0.002 : 0.004;
+        wireframe.rotation.y = globe.rotation.y;
+        points.rotation.y = globe.rotation.y;
+        glow.rotation.y = globe.rotation.y;
+        arcsGroup.rotation.y += reducedMotion ? 0.001 : 0.002;
+        ringsGroup.rotation.y += reducedMotion ? 0.0005 : 0.001;
+        ringsGroup.rotation.x += reducedMotion ? 0.0003 : 0.0006;
+        pointLight1.position.x = Math.sin(time * 0.5) * 4;
+        pointLight1.position.z = Math.cos(time * 0.5) * 4;
+        pointLight2.position.x = Math.cos(time * 0.3) * 3;
+        pointLight2.position.z = Math.sin(time * 0.3) * 3;
+        renderer.render(scene, camera);
+      }
       animationRef.current = requestAnimationFrame(animate);
     };
 
-    const startAnimation = () => {
-      if (!animationRef.current) {
-        animationRef.current = requestAnimationFrame(animate);
-      }
-    };
+    // Start loop immediately (will check isInView)
+    animationRef.current = requestAnimationFrame(animate);
 
-    const stopAnimation = () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-        animationRef.current = undefined;
-      }
-    };
-
-    // IntersectionObserver to pause/resume
+    // IntersectionObserver – only updates ref
     const observer = new IntersectionObserver(
       (entries) => {
-        const entry = entries[0];
-        setIsInView(entry.isIntersecting);
-        if (entry.isIntersecting) {
-          startAnimation();
-        } else {
-          stopAnimation();
-        }
+        isInViewRef.current = entries[0].isIntersecting;
       },
       { rootMargin: '100px' }
     );
@@ -271,7 +257,7 @@ export default function ThreeGlobe({ className }: ThreeGlobeProps) {
     // Cleanup
     return () => {
       mountedRef.current = false;
-      stopAnimation();
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
       observer.disconnect();
       window.removeEventListener('resize', handleResize);
       renderer.domElement.removeEventListener('webglcontextlost', handleContextLost);
@@ -291,7 +277,7 @@ export default function ThreeGlobe({ className }: ThreeGlobeProps) {
         container.removeChild(renderer.domElement);
       }
     };
-  }, [isInView]); // re-run effect when isInView changes
+  }, []); // <-- empty dependency array, runs only once
 
   return (
     <div

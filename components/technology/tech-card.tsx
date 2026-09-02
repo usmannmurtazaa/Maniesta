@@ -15,7 +15,7 @@ import {
   SiNetlify,
 } from 'react-icons/si';
 import { TbApi } from 'react-icons/tb';
-import { FiGlobe, FiCpu } from 'react-icons/fi';
+import { FiGlobe, FiCpu, FiLayers } from 'react-icons/fi';
 
 const iconMap: Record<string, JSX.Element> = {
   React: <SiReact className="w-6 h-6" />,
@@ -25,6 +25,7 @@ const iconMap: Record<string, JSX.Element> = {
   'Tailwind CSS': <SiTailwindcss className="w-6 h-6" />,
   Motion: <SiFramer className="w-6 h-6" />,
   'Three.js': <SiThreedotjs className="w-6 h-6" />,
+  'React Three Fiber': <FiLayers className="w-6 h-6" />, // or SiThreedotjs if preferred
   Firebase: <SiFirebase className="w-6 h-6" />,
   'AI APIs': <FiCpu className="w-6 h-6" />,
   'REST APIs': <TbApi className="w-6 h-6" />,
@@ -34,6 +35,24 @@ const iconMap: Record<string, JSX.Element> = {
   Netlify: <SiNetlify className="w-6 h-6" />,
 };
 
+const techColors: Record<string, string> = {
+  React: '#61dafb',
+  'Next.js': '#ffffff',
+  TypeScript: '#3178c6',
+  JavaScript: '#f7df1e',
+  'Tailwind CSS': '#38bdf8',
+  Motion: '#a855f7',
+  'Three.js': '#ffffff',
+  'React Three Fiber': '#8b5cf6',
+  Firebase: '#ffca28',
+  'AI APIs': '#8b5cf6',
+  'REST APIs': '#34d399',
+  'Web APIs': '#22d3ee',
+  Git: '#f05032',
+  GitHub: '#ffffff',
+  Netlify: '#00c7b7',
+};
+
 interface TechCardProps {
   name: string;
   index: number;
@@ -41,6 +60,7 @@ interface TechCardProps {
 
 export default function TechCard({ name, index }: TechCardProps) {
   const icon = iconMap[name] || <SiReact className="w-6 h-6" />;
+  const color = techColors[name] || '#22d3ee';
 
   return (
     <motion.div
@@ -54,7 +74,9 @@ export default function TechCard({ name, index }: TechCardProps) {
       aria-label={name}
       title={name}
     >
-      <div className="text-2xl mb-2 text-blue-400 flex justify-center">{icon}</div>
+      <div className="text-2xl mb-2 flex justify-center" style={{ color }}>
+        {icon}
+      </div>
       <div className="text-sm font-semibold text-white">{name}</div>
     </motion.div>
   );

@@ -36,6 +36,7 @@ export default function SparklesCore({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
   const particlesRef = useRef<Particle[]>([]);
+  const isVisibleRef = useRef(true);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -45,27 +46,39 @@ export default function SparklesCore({
 
     let width = (canvas.width = canvas.offsetWidth);
     let height = (canvas.height = canvas.offsetHeight);
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const particles: Particle[] = [];
-    for (let i = 0; i < particleDensity; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        size: Math.random() * (maxSize - minSize) + minSize,
-        alpha: Math.random() * 0.6 + 0.2,
-        vx: (Math.random() - 0.5) * 0.2,
-        vy: (Math.random() - 0.5) * 0.2,
-        twinkleSpeed: Math.random() * 0.02 + 0.01,
-        phase: Math.random() * Math.PI * 2,
-      });
-    }
-    particlesRef.current = particles;
+    // Generate particles based on current dimensions
+    const generateParticles = (w: number, h: number): Particle[] => {
+      const particles: Particle[] = [];
+      for (let i = 0; i < particleDensity; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          size: Math.random() * (maxSize - minSize) + minSize,
+          alpha: Math.random() * 0.6 + 0.2,
+          vx: (Math.random() - 0.5) * 0.2,
+          vy: (Math.random() - 0.5) * 0.2,
+          twinkleSpeed: Math.random() * 0.02 + 0.01,
+          phase: Math.random() * Math.PI * 2,
+        });
+      }
+      return particles;
+    };
+
+    particlesRef.current = generateParticles(width, height);
 
     const animate = () => {
+      if (!isVisibleRef.current) {
+        // Skip rendering when offscreen
+        animationRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
       ctx.clearRect(0, 0, width, height);
       const time = Date.now() * 0.001;
 
-      particles.forEach((p) => {
+      particlesRef.current.forEach((p) => {
         p.x += p.vx;
         p.y += p.vy;
         p.phase += p.twinkleSpeed;
@@ -90,7 +103,7 @@ export default function SparklesCore({
     };
 
     const staticDraw = () => {
-      particles.forEach((p) => {
+      particlesRef.current.forEach((p) => {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = particleColor;
@@ -100,20 +113,44 @@ export default function SparklesCore({
       });
     };
 
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      animate();
-    } else {
+    if (reducedMotion) {
       staticDraw();
+    } else {
+      animationRef.current = requestAnimationFrame(animate);
     }
 
+    // IntersectionObserver to pause/resume when offscreen
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+      },
+      { rootMargin: '50px' }
+    );
+    observer.observe(canvas);
+
+    // Handle resize with particle regeneration
     const resizeObserver = new ResizeObserver(() => {
-      width = canvas.width = canvas.offsetWidth;
-      height = canvas.height = canvas.offsetHeight;
+      const newWidth = canvas.offsetWidth;
+      const newHeight = canvas.offsetHeight;
+      if (newWidth === 0 || newHeight === 0) return;
+
+      canvas.width = newWidth;
+      canvas.height = newHeight;
+      width = newWidth;
+      height = newHeight;
+
+      // Regenerate particles for new dimensions
+      particlesRef.current = generateParticles(newWidth, newHeight);
+
+      if (reducedMotion) {
+        staticDraw();
+      }
     });
     resizeObserver.observe(canvas);
 
     return () => {
       cancelAnimationFrame(animationRef.current!);
+      observer.disconnect();
       resizeObserver.disconnect();
     };
   }, [minSize, maxSize, particleDensity, particleColor, speed]);
@@ -121,8 +158,9 @@ export default function SparklesCore({
   return (
     <canvas
       ref={canvasRef}
-      className={cn('absolute', className)}
+      className={cn('block w-full h-full', className)}
       style={{ background, pointerEvents: 'none' }}
+      aria-hidden="true"
     />
   );
 }

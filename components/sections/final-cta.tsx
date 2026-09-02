@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import AnimatedButton from '@/components/ui/animated-button';
 import SparklesCore from '@/components/ui/sparkles';
-import DottedGlowBackground from '@/components/ui/dotted-glow-background';
+
 import { FiArrowRight, FiExternalLink } from 'react-icons/fi';
 
 export default function FinalCTASection() {
@@ -18,7 +18,6 @@ export default function FinalCTASection() {
       aria-label="Final call to action"
       className="relative py-20 md:py-28 bg-[#0a0a12] overflow-hidden"
     >
-      <DottedGlowBackground className="opacity-25" />
       <SparklesCore
         className="w-full h-40 absolute inset-0"
         particleColor="#8b5cf6"

@@ -21,21 +21,23 @@ export default function ProjectFilter({ activeFilter, onFilterChange }: ProjectF
       aria-label="Filter projects by category"
     >
       {categories.map((cat) => (
-        <button
+        <motion.button
           key={cat}
           type="button"
           onClick={() => onFilterChange(cat)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           aria-pressed={activeFilter === cat}
           aria-label={`Filter by ${cat}`}
           className={cn(
-            'px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer whitespace-nowrap',
+            'px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer whitespace-nowrap focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-500',
             activeFilter === cat
               ? 'bg-gradient-to-r from-blue-500/20 to-purple-500/25 text-white border border-purple-500/40 shadow-glow-purple'
               : 'bg-white/5 text-gray-400 border border-white/10 hover:border-purple-500/30 hover:text-white hover:bg-purple-500/10'
           )}
         >
           {cat}
-        </button>
+        </motion.button>
       ))}
     </motion.div>
   );

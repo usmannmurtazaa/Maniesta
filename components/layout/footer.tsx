@@ -1,6 +1,8 @@
 'use client';
 
-import { FiGithub, FiMail, FiLinkedin } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { FiGithub, FiMail, FiLinkedin, FiArrowUpRight } from 'react-icons/fi';
 
 export default function Footer() {
   const scrollTo = (id: string) => {
@@ -8,71 +10,157 @@ export default function Footer() {
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  const navItems = ['About', 'Projects', 'Technology', 'Global', 'Contact'];
+
   return (
-    <footer className="py-12 bg-[#08080d] border-t border-white/5" aria-label="Footer">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+    <footer
+      className="relative py-12 bg-[#08080d] border-t border-white/5 overflow-hidden"
+      aria-label="Footer"
+    >
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent" />
+      <div
+        className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-40 opacity-10 blur-3xl pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(ellipse at center, rgba(139,92,246,0.4) 0%, transparent 70%)',
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div className="md:col-span-2">
-            <h3 className="font-display text-xl font-bold mb-3 bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-              MANIESTA
-            </h3>
-            <p className="text-gray-500 text-sm max-w-xs">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="flex items-center gap-3 mb-4"
+            >
+              <div className="icon-glow w-10 h-10">
+                <Image
+                  src="/icon.png"
+                  alt="Maniesta logo"
+                  width={40}
+                  height={40}
+                  className="object-contain"
+                />
+              </div>
+
+              <span
+                className="text-2xl font-bold tracking-tight shimmer-text"
+                style={{ fontFamily: 'Outfit, Inter, sans-serif' }}
+              >
+                MANIESTA
+              </span>
+            </motion.div>
+            <p className="text-gray-500 text-sm max-w-xs leading-relaxed">
               Digital products, applications and experiments built with modern technology.
             </p>
           </div>
+
           <div>
             <h4 className="text-sm font-semibold text-gray-300 mb-3">Navigation</h4>
             <div className="flex flex-col gap-2">
-              {['About', 'Projects', 'Technology', 'Global', 'Contact'].map((item) => (
-                <button
+              {navItems.map((item) => (
+                <motion.button
                   key={item}
                   type="button"
                   onClick={() => scrollTo(item.toLowerCase())}
-                  className="text-left text-gray-500 hover:text-gray-300 text-sm bg-transparent border-none cursor-pointer transition-colors"
+                  className="text-left text-gray-500 hover:text-white text-sm bg-transparent border-none cursor-pointer transition-colors group flex items-center gap-1"
+                  whileHover={{ x: 3 }}
+                  whileTap={{ scale: 0.98 }}
                 >
                   {item}
-                </button>
+                  <FiArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </motion.button>
               ))}
             </div>
           </div>
+
           <div>
             <h4 className="text-sm font-semibold text-gray-300 mb-3">Contact</h4>
             <div className="flex flex-col gap-2">
               <a
                 href="mailto:maniesta01@gmail.com"
-                className="text-gray-500 hover:text-gray-300 text-sm transition-colors inline-flex items-center gap-2"
+                className="text-gray-500 hover:text-white text-sm transition-colors inline-flex items-center gap-2 group"
               >
-                <FiMail className="w-4 h-4" />
+                <FiMail className="w-4 h-4 group-hover:text-cyan-400 transition-colors" />
                 maniesta01@gmail.com
               </a>
             </div>
+
             <h4 className="text-sm font-semibold text-gray-300 mt-4 mb-2">Social</h4>
             <div className="flex gap-4">
-              <a
+              <motion.a
                 href="https://github.com/usmannmurtazaa"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
                 className="text-gray-500 hover:text-white transition-colors"
+                whileHover={{ y: -3, scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
                 <FiGithub className="w-5 h-5" />
-              </a>
-              <a
+              </motion.a>
+              <motion.a
                 href="https://www.linkedin.com/in/usmannmurtazaa"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
                 className="text-gray-500 hover:text-white transition-colors"
+                whileHover={{ y: -3, scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
                 <FiLinkedin className="w-5 h-5" />
-              </a>
+              </motion.a>
             </div>
           </div>
         </div>
-        <div className="pt-6 border-t border-white/5 text-center">
+
+        <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-3">
           <p className="text-xs text-gray-600">© 2026 Maniesta. All rights reserved.</p>
+          <button
+            onClick={() => scrollTo('hero')}
+            className="text-xs text-gray-600 hover:text-gray-400 transition-colors bg-transparent border-none cursor-pointer flex items-center gap-1"
+          >
+            Back to top <span aria-hidden>↑</span>
+          </button>
         </div>
       </div>
+
+      <style jsx>{`
+        .icon-glow {
+          animation: iconPulse 7s ease-in-out infinite;
+        }
+        @keyframes iconPulse {
+          0%,
+          100% {
+            filter: drop-shadow(0 0 1px #22d3ee) drop-shadow(0 0 2px #3b82f6)
+              drop-shadow(0 0 8px #8b5cf6);
+          }
+          50% {
+            filter: drop-shadow(0 0 3px #22d3ee) drop-shadow(0 0 6px #3b82f6)
+              drop-shadow(0 0 20px #8b5cf6);
+          }
+        }
+        .shimmer-text {
+          background: linear-gradient(90deg, #22d3ee, #8b5cf6, #d946ef, #22d3ee);
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          color: transparent;
+          animation: shimmer 5s linear infinite;
+        }
+        @keyframes shimmer {
+          0% {
+            background-position: 0% 50%;
+          }
+          100% {
+            background-position: 200% 50%;
+          }
+        }
+      `}</style>
     </footer>
   );
 }

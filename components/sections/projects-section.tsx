@@ -1,33 +1,32 @@
 'use client';
 
-import { useState, useEffect, Suspense, lazy } from 'react';
+import { useMemo, Suspense, lazy, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { projects, Project } from '@/data/projects';
+import { projects } from '@/data/projects';
 import ProjectCard from '@/components/projects/project-card';
 import ProjectFilter from '@/components/projects/project-filter';
 import SectionHeading from '@/components/ui/section-heading';
-import DottedGlowBackground from '@/components/ui/dotted-glow-background';
 
-// Lazy load HeroParallax only when needed (heavy animation)
 const HeroParallax = lazy(() => import('@/components/projects/hero-parallax'));
 
 export default function ProjectsSection() {
   const [activeFilter, setActiveFilter] = useState('All');
-  const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
 
-  useEffect(() => {
-    if (activeFilter === 'All') {
-      setFilteredProjects(projects);
-    } else {
-      setFilteredProjects(projects.filter((p) => p.category.includes(activeFilter)));
-    }
+  const filteredProjects = useMemo(() => {
+    if (activeFilter === 'All') return projects;
+    return projects.filter((p) => p.category.includes(activeFilter));
   }, [activeFilter]);
 
   return (
-    <section id="projects" className="relative py-20 md:py-28 bg-[#0a0a12]">
-      <DottedGlowBackground className="opacity-20" />
-
-      <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
+    <section
+      id="projects"
+      className="relative py-20 md:py-28 bg-[#0a0a12]"
+      style={{ position: 'relative' }}
+    >
+      <div
+        className="max-w-7xl mx-auto px-4 md:px-6 relative z-10"
+        style={{ position: 'relative' }}
+      >
         <SectionHeading
           label="The Collection"
           title="Built to Solve Real Problems."
@@ -41,6 +40,7 @@ export default function ProjectsSection() {
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.7, delay: 0.2 }}
           className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14"
+          style={{ position: 'relative' }}
         >
           {[
             { value: '12+', label: 'Digital Products' },
@@ -69,6 +69,7 @@ export default function ProjectsSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16"
+          style={{ position: 'relative' }}
         >
           <AnimatePresence>
             {filteredProjects.map((project) => (
@@ -91,6 +92,7 @@ export default function ProjectsSection() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.7 }}
+          style={{ position: 'relative' }}
         >
           <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 text-center mb-6">
             Scroll Through the Ecosystem

@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import WavyBackground from '@/components/ui/wavy-background';
 import LampContainer from '@/components/ui/lamp';
 import TextHoverEffect from '@/components/ui/text-hover-effect';
 import SparklesCore from '@/components/ui/sparkles';
-import DottedGlowBackground from '@/components/ui/dotted-glow-background';
 import AnimatedButton from '@/components/ui/animated-button';
 
 export default function HeroSection() {
@@ -15,8 +14,11 @@ export default function HeroSection() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   useEffect(() => {
-    setIsTouchDevice(window.matchMedia('(hover: none)').matches);
-    setPrefersReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const timer = setTimeout(() => {
+      setIsTouchDevice(window.matchMedia('(hover: none)').matches);
+      setPrefersReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -35,24 +37,27 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+      className="relative flex flex-col items-center justify-between overflow-hidden min-h-[100svh] pt-24 pb-12 px-4"
       onMouseMove={handleMouseMove}
       aria-label="Hero"
     >
-      {/* Semantic h1 for SEO (visually hidden) */}
       <h1 className="sr-only">MANIESTA – Digital Products & Interactive Experiences</h1>
 
-      <WavyBackground
-        colors={['#22d3ee', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7', '#d946ef']}
-        blur={20}
-        speed="slow"
-        waveOpacity={0.35}
-        className="opacity-70"
-      />
-      <DottedGlowBackground className="opacity-40" />
+      {/* Background effects (z-index 0) */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <WavyBackground
+          colors={['#22d3ee', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7', '#d946ef']}
+          blur={20}
+          speed="slow"
+          waveOpacity={0.9}
+          verticalOffset={0.6} // 0.5 center, 0.3 upar shift
+          className="opacity-70"
+        />
+      </div>
 
+      {/* Main content – fills available vertical space and is centered */}
       <div
-        className="relative z-10 text-center px-4"
+        className="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-5xl"
         style={{
           transform:
             isTouchDevice || prefersReducedMotion
@@ -61,43 +66,57 @@ export default function HeroSection() {
           transition: 'transform 0.15s ease-out',
         }}
       >
-        <LampContainer>
-          <TextHoverEffect text="MANIESTA" />
-        </LampContainer>
+        {/* Lamp – sits directly above MANIESTA */}
+        <div className="w-full flex justify-center relative z-[5] -mb-6 md:-mb-10">
+          <LampContainer className="h-32 md:h-40 w-full overflow-visible" />
+        </div>
 
-        <SparklesCore
-          className="w-64 h-16 mx-auto mt-4"
-          particleColor="#8b5cf6"
-          particleDensity={isTouchDevice ? 15 : 25}
-          minSize={0.3}
-          maxSize={1.2}
-          speed={prefersReducedMotion ? 0 : 0.6}
-        />
+        {/* MANIESTA heading */}
+        <div className="w-full flex justify-center relative z-10">
+          <TextHoverEffect text="MANIESTA" className="w-[80%] md:w-[70%] max-w-[800px]" />
+        </div>
 
+        {/* Sparkles directly below MANIESTA */}
+        <div className="w-full flex justify-center items-center relative z-10 -mt-2 md:-mt-4">
+          <div className="w-[200px] h-[40px] sm:w-[280px] sm:h-[50px] md:w-[400px] md:h-[70px] relative overflow-hidden">
+            <SparklesCore
+              className="absolute inset-0"
+              particleColor="#8b5cf6"
+              particleDensity={isTouchDevice ? 25 : 45}
+              minSize={2}
+              maxSize={2}
+              speed={prefersReducedMotion ? 0 : 0.6}
+            />
+          </div>
+        </div>
+
+        {/* Tagline */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="font-display text-2xl md:text-3xl font-semibold mt-6 text-white/80 tracking-tight"
+          className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold mt-4 md:mt-6 text-white/80 tracking-tight text-center"
         >
           Digital Products. <span className="gradient-text">Intelligent Experiences.</span>
         </motion.h2>
 
+        {/* Description */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.7 }}
-          className="mt-4 text-base md:text-lg max-w-2xl mx-auto text-white/55 leading-relaxed"
+          className="mt-3 md:mt-4 text-sm md:text-base lg:text-lg max-w-2xl mx-auto text-white/55 leading-relaxed text-center"
         >
           Maniesta is a collection of modern applications and digital products built across AI,
           productivity, education, utilities, weather, entertainment and business solutions.
         </motion.p>
 
+        {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.9 }}
-          className="mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center"
+          className="mt-6 md:mt-8 flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <AnimatedButton onClick={() => scrollTo('projects')}>
             Explore Projects <span>→</span>
@@ -108,21 +127,18 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
+      {/* Scroll indicator – now in normal flow at the bottom */}
       {!prefersReducedMotion && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-center"
+          className="relative z-10 mb-2 text-center"
         >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            className="text-white/40 text-xs tracking-[0.15em] uppercase"
-          >
+          <div className="text-white/40 text-xs tracking-[0.15em] uppercase mt-8">
             Scroll to explore
             <div className="w-[1px] h-[30px] bg-white/30 mx-auto mt-2" />
-          </motion.div>
+          </div>
         </motion.div>
       )}
     </section>

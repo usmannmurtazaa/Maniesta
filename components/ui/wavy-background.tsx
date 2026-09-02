@@ -9,14 +9,16 @@ interface WavyBackgroundProps {
   speed?: 'slow' | 'medium' | 'fast';
   waveOpacity?: number;
   className?: string;
+  verticalOffset?: number; // 0 to 1, default 0.5 (center)
 }
 
 export default function WavyBackground({
   colors = ['#22d3ee', '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7', '#d946ef'],
-  blur = 30,
+  blur = 20,
   speed = 'slow',
-  waveOpacity = 0.5,
+  waveOpacity = 0.9,
   className,
+  verticalOffset = 0.6,
 }: WavyBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
@@ -62,7 +64,7 @@ export default function WavyBackground({
         ctx.lineTo(x, y);
       }
       ctx.strokeStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${opacity})`;
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 5;
       ctx.stroke();
     };
 
@@ -70,14 +72,14 @@ export default function WavyBackground({
       ctx.clearRect(0, 0, width, height);
       ctx.filter = `blur(${blur}px)`;
 
-      const centerY = height * 0.5;
+      const centerY = height * verticalOffset; // <-- uses verticalOffset prop
 
       colorValues.forEach((color, i) => {
         const offsetY = centerY + (i - colorValues.length / 2) * 20;
-        const amplitude = 30 + i * 8;
+        const amplitude = 50 + i * 10;
         const frequency = 0.005 + i * 0.001;
-        const opacity = waveOpacity * (1 - i * 0.08);
-        drawWave(offsetY, amplitude, frequency, i * 0.8, color, Math.max(0.05, opacity));
+        const opacity = waveOpacity * (1 - i * 0.02);
+        drawWave(offsetY, amplitude, frequency, i * 0.8, color, Math.max(0.3, opacity));
       });
 
       ctx.filter = 'none';
@@ -88,12 +90,13 @@ export default function WavyBackground({
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       animate();
     } else {
+      const centerY = height * verticalOffset;
       colorValues.forEach((color, i) => {
-        const offsetY = height * 0.5 + (i - colorValues.length / 2) * 20;
-        const amplitude = 30 + i * 8;
+        const offsetY = centerY + (i - colorValues.length / 2) * 20;
+        const amplitude = 50 + i * 10;
         const frequency = 0.005 + i * 0.001;
-        const opacity = waveOpacity * (1 - i * 0.08);
-        drawWave(offsetY, amplitude, frequency, i * 0.8, color, Math.max(0.05, opacity));
+        const opacity = waveOpacity * (1 - i * 0.02);
+        drawWave(offsetY, amplitude, frequency, i * 0.8, color, Math.max(0.3, opacity));
       });
     }
 
@@ -107,7 +110,7 @@ export default function WavyBackground({
       cancelAnimationFrame(animationRef.current!);
       resizeObserver.disconnect();
     };
-  }, [colorsKey, blur, speed, waveOpacity, reducedMotion]);
+  }, [colorsKey, blur, speed, waveOpacity, verticalOffset, reducedMotion]);
 
   return (
     <canvas
