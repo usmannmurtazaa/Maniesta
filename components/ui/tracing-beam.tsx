@@ -60,7 +60,11 @@ export default function TracingBeam({ children, className }: TracingBeamProps) {
   }, []);
 
   return (
-    <div ref={containerRef} className={cn('relative', className)}>
+    <div
+      ref={containerRef}
+      className={cn('relative', className)}
+      style={{ position: 'relative' }}
+    >
       {/* Decorative beam line */}
       <div
         aria-hidden="true"

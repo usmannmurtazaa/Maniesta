@@ -36,6 +36,7 @@ export default function HeroParallax({ projects }: HeroParallaxProps) {
     <div
       ref={ref}
       className="h-[300vh] py-40 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
+      style={{ position: 'relative' }} // explicit inline position to ensure Framer Motion calculates correctly
     >
       <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full left-0 top-0">
         <h1 className="text-2xl md:text-7xl font-bold text-white">
