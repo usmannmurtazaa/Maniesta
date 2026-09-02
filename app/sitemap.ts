@@ -26,11 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
     images:
       project.screenshots.length > 0
-        ? project.screenshots.map((screenshot) => ({
-            url: `${baseUrl}${screenshot}`, // absolute URL
-            title: project.title,
-            caption: project.shortDescription || project.description,
-          }))
+        ? project.screenshots.map((screenshot) => `${baseUrl}${screenshot}`)
         : undefined,
   }));
 
