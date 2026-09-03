@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiMail, FiGithub, FiLinkedin, FiArrowRight, FiMessageCircle } from 'react-icons/fi';
 import SparklesCore from '@/components/ui/sparkles';
@@ -8,26 +9,43 @@ function ContactButton({
   href,
   icon,
   label,
-  variant = 'solid',
+  variant = 'outline',
+  hoverColor = '#22d3ee', // default cyan
 }: {
   href: string;
   icon: React.ReactNode;
   label: string;
   variant?: 'solid' | 'outline';
+  hoverColor?: string;
 }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const buttonClasses =
+    variant === 'solid'
+      ? 'bg-gradient-to-r from-blue-500 via-purple-500 to-magenta-500 text-white shadow-lg shadow-purple-500/30'
+      : 'bg-white/5 border border-white/10 text-white backdrop-blur-md';
+
   return (
     <a
       href={href}
       target={href.startsWith('mailto') ? undefined : '_blank'}
       rel={href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
-      className={`group flex items-center gap-3 px-6 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer ${
-        variant === 'solid'
-          ? 'bg-gradient-to-r from-blue-500 via-purple-500 to-magenta-500 text-white shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/50 hover:-translate-y-0.5'
-          : 'bg-white/5 border border-white/10 text-white backdrop-blur-md hover:border-purple-500/40 hover:bg-purple-500/10 hover:shadow-glow-purple hover:-translate-y-0.5'
-      }`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`group flex items-center gap-3 px-6 py-3.5 rounded-full text-sm font-semibold transition-colors duration-300 cursor-pointer ${buttonClasses}`}
     >
-      {icon}
-      {label}
+      <span
+        style={{ color: isHovered ? hoverColor : undefined }}
+        className="transition-colors duration-300"
+      >
+        {icon}
+      </span>
+      <span
+        style={{ color: isHovered ? hoverColor : undefined }}
+        className="transition-colors duration-300"
+      >
+        {label}
+      </span>
       <FiArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
     </a>
   );
@@ -42,7 +60,6 @@ export default function ContactSection() {
     >
       {/* Enhanced multi-layer background */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        {/* Aurora gradient blobs */}
         <div
           className="absolute top-[-20%] left-[-10%] w-[60%] h-[70%] rounded-full opacity-40 blur-3xl"
           style={{
@@ -57,7 +74,6 @@ export default function ContactSection() {
             animation: 'auroraFloat 10s ease-in-out infinite reverse',
           }}
         />
-        {/* Subtle grid pattern */}
         <div
           className="absolute inset-0 opacity-[0.04]"
           style={{
@@ -74,9 +90,9 @@ export default function ContactSection() {
           className="w-full h-full"
           particleColor="#8b5cf6"
           particleDensity={20}
-          minSize={0.3}
-          maxSize={1.2}
-          speed={0.5}
+          minSize={0.9}
+          maxSize={1.9}
+          speed={0.9}
         />
       </div>
 
@@ -146,18 +162,21 @@ export default function ContactSection() {
                   icon={<FiMail className="w-5 h-5" />}
                   label="Email Me"
                   variant="solid"
+                  hoverColor="#22d3ee" // cyan
                 />
                 <ContactButton
                   href="https://github.com/usmannmurtazaa"
                   icon={<FiGithub className="w-5 h-5" />}
                   label="GitHub"
                   variant="outline"
+                  hoverColor="#34d399" // emerald
                 />
                 <ContactButton
                   href="https://www.linkedin.com/in/usmannmurtazaa"
                   icon={<FiLinkedin className="w-5 h-5" />}
                   label="LinkedIn"
                   variant="outline"
+                  hoverColor="#60a5fa" // blue
                 />
               </div>
 

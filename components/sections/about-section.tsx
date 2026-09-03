@@ -62,10 +62,10 @@ export default function AboutSection() {
 
           <div className="relative z-10 space-y-6">
             <h3 className="font-display text-xl md:text-2xl font-semibold text-white">
-              Who is behind <span className="font-semibold text-blue-400">Maniesta</span>?
+              Who is behind <span className="font-semibold text-sky-400">Maniesta</span>?
             </h3>
             <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-              I&apos;m <span className="font-semibold text-blue-400">Usman Murtaza</span>, a Computer
+              I&apos;m <span className="font-semibold text-sky-400">Usman Murtaza</span>, a Computer
               Science student and web developer focused on building modern digital products and
               interactive web applications.
             </p>
@@ -116,8 +116,8 @@ export default function AboutSection() {
               key={i}
               className="p-6 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-xl transition-all duration-300 hover:border-purple-500/30 hover:bg-purple-500/5"
             >
-              <div className="text-blue-400 mb-3">{item.icon}</div>
-              <h4 className="text-white font-semibold mb-1">{item.title}</h4>
+              <div className="text-sky-600 mb-3">{item.icon}</div>
+              <h4 className="text-sky-400 font-semibold mb-1">{item.title}</h4>
               <p className="text-gray-400 text-sm">{item.text}</p>
             </div>
           ))}

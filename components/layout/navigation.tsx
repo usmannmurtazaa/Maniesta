@@ -188,7 +188,7 @@ export default function Navigation() {
 
       <style jsx>{`
         .icon-glow {
-          animation: iconPulse 7s ease-in-out infinite;
+          animation: iconPulse 5s ease-in-out infinite;
         }
         @keyframes iconPulse {
           0%,
@@ -197,8 +197,8 @@ export default function Navigation() {
               drop-shadow(0 0 8px #8b5cf6);
           }
           50% {
-            filter: drop-shadow(0 0 3px #22d3ee) drop-shadow(0 0 6px #3b82f6)
-              drop-shadow(0 0 20px #8b5cf6);
+            filter: drop-shadow(0 0 4px #22d3ee) drop-shadow(0 0 8px #3b82f6)
+              drop-shadow(0 0 16px #8b5cf6);
           }
         }
         .shimmer-text {
