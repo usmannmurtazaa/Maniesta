@@ -27,6 +27,25 @@
 
 ---
 
+<!-- FOUNDER BADGE -->
+<div align="center">
+  <img src="https://github.com/Usmannmurtazaa.png" alt="Usman Murtaza" width="80" height="80" style="border-radius: 50%; margin-bottom: 10px;" />
+  <p style="font-size: 1.1rem; font-weight: 600; margin: 0;">
+    Founded by <a href="https://usmanmurtaza.netlify.app">Usman Murtaza</a>
+  </p>
+  <p style="font-size: 0.95rem; color: #9898b0; margin-top: 4px;">
+    Full Stack Developer · Founder of the Maniesta ecosystem
+  </p>
+  <p style="font-size: 0.9rem; margin-top: 6px;">
+    <a href="https://usmanmurtaza.netlify.app">Portfolio</a> ·
+    <a href="https://dev.to/usmanmurtaza">Dev.to</a> ·
+    <a href="https://github.com/Usmannmurtazaa">GitHub</a> ·
+    <a href="https://www.linkedin.com/in/Usmannmurtazaa/">LinkedIn</a>
+  </p>
+</div>
+
+---
+
 ## 🌟 **Overview**
 
 MANIESTA is more than a portfolio — it's a **digital product ecosystem**.  
@@ -284,9 +303,21 @@ Distributed under the **MIT License** — free to use, modify, and distribute.
 
 ## 📞 **Contact**
 
-**Usman Murtaza** – Computer Science focused developer  
+**Usman Murtaza** — Full Stack Developer & Founder of the Maniesta ecosystem  
+🌐 Portfolio: [usmanmurtaza.netlify.app](https://usmanmurtaza.netlify.app)  
 📧 Email: maniesta01@gmail.com  
-🔗 GitHub: [usmannmurtazaa](https://github.com/usmannmurtazaa)
+🔗 GitHub: [usmannmurtazaa](https://github.com/usmannmurtazaa)  
+✍️ Dev.to: [dev.to/usmanmurtaza](https://dev.to/usmanmurtaza)
+
+### Maniesta Ecosystem
+
+[**Maniesta**](https://maniesta.netlify.app) ·
+[**Maniesta Campus**](https://maniestacampus.netlify.app) ·
+[**Maniesta Resume AI**](https://maniestaresumeai.netlify.app) ·
+[**Maniesta Suite**](https://maniestasuite.netlify.app) ·
+[**Maniesta Digital**](https://maniestadigital.netlify.app) ·
+[**Maniesta School**](https://maniesta-school.netlify.app) ·
+[**Maniesta One**](https://maniestaone.netlify.app)
 
 ---
 
@@ -294,6 +325,9 @@ Distributed under the **MIT License** — free to use, modify, and distribute.
   <br>
   <p style="font-size: 1.2rem; font-weight: 600; color: #8b5cf6;">✨ Built with passion and modern technology ✨</p>
   <br>
+  <p style="font-size: 0.9rem; color: #9898b0;">
+    Founded by <a href="https://usmanmurtaza.netlify.app">Usman Murtaza</a>
+  </p>
   <img src="https://img.shields.io/badge/Made_with-❤️-red?style=flat-square" alt="Made with Love" />
   <br><br>
 </div>

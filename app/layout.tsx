@@ -23,6 +23,11 @@ export const metadata: Metadata = {
     icon: '/icon.png',
     apple: '/icon.png',
   },
+  /* Google Search Console verification. Next.js renders this as:
+     <meta name="google-site-verification" content="..." /> in the <head>. */
+  verification: {
+    google: '8tNUALDy2r2_UlsW_1cTKj2dwBiSn_0urgZbIVqXFcM',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -86,6 +91,11 @@ const organizationSchema = {
   name: 'Maniesta',
   url: 'https://maniesta.netlify.app',
   logo: 'https://maniesta.netlify.app/icon.png',
+  founder: {
+    '@type': 'Person',
+    name: 'Usman Murtaza',
+    url: 'https://usmanmurtaza.netlify.app',
+  },
   sameAs: ['https://github.com/usmannmurtazaa', 'https://www.linkedin.com/in/usmannmurtazaa'],
 };
 
