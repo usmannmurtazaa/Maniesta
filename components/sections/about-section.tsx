@@ -5,6 +5,8 @@ import Link from 'next/link';
 import SectionHeading from '@/components/ui/section-heading';
 import { FiArrowRight, FiBox, FiGlobe, FiZap } from 'react-icons/fi';
 
+const PORTFOLIO_URL = 'https://usmanmurtaza.netlify.app';
+
 export default function AboutSection() {
   return (
     <section
@@ -65,9 +67,17 @@ export default function AboutSection() {
               Who is behind <span className="font-semibold text-sky-400">Maniesta</span>?
             </h3>
             <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-              I&apos;m <span className="font-semibold text-sky-400">Usman Murtaza</span>, a Computer
-              Science student and web developer focused on building modern digital products and
-              interactive web applications.
+              I&apos;m{' '}
+              <a
+                href={PORTFOLIO_URL}
+                target="_blank"
+                rel="noopener noreferrer author"
+                className="font-semibold text-sky-400 hover:text-sky-300 underline-offset-4 hover:underline transition-colors"
+              >
+                Usman Murtaza
+              </a>
+              , a Computer Science student and Full Stack Developer focused on building modern
+              digital products and interactive web applications.
             </p>
             <p className="text-gray-300 text-sm md:text-base leading-relaxed">
               Through Maniesta, I build and showcase practical digital products across different
@@ -82,7 +92,17 @@ export default function AboutSection() {
             </p>
             <p className="text-gray-300 text-sm md:text-base leading-relaxed">
               Maniesta is my digital product ecosystem, a place where I showcase applications and
-              experiments that I&apos;ve designed, developed, and continuously improved.
+              experiments that I&apos;ve designed, developed, and continuously improved. You can
+              explore my full portfolio and other work at{' '}
+              <a
+                href={PORTFOLIO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sky-400 hover:text-sky-300 underline-offset-4 hover:underline transition-colors"
+              >
+                usmanmurtaza.netlify.app
+              </a>
+              .
             </p>
           </div>
         </motion.article>
@@ -129,7 +149,7 @@ export default function AboutSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.7, delay: 0.6 }}
-          className="mt-12 text-center"
+          className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <Link
             href="/projects"
@@ -137,6 +157,14 @@ export default function AboutSection() {
           >
             Explore Projects <FiArrowRight className="w-4 h-4" />
           </Link>
+          <a
+            href={PORTFOLIO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm text-sky-300 border border-sky-500/40 hover:border-sky-400 hover:bg-sky-500/10 hover:-translate-y-0.5 transition-all duration-300"
+          >
+            View Full Portfolio <FiArrowRight className="w-4 h-4" />
+          </a>
         </motion.div>
       </div>
     </section>

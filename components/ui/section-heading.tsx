@@ -22,12 +22,13 @@ export default function SectionHeading({
   id,
   headingLevel: HeadingTag = 'h2',
 }: SectionHeadingProps) {
-  const ariaLevel = HeadingTag === 'h1' ? 1 : HeadingTag === 'h2' ? 2 : 3;
-
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      /* Only the y-translation is animated. `opacity` is not touched, so
+         the heading text is always visible in the server-rendered HTML
+         and search engines can index it reliably. */
+      initial={{ y: 30 }}
+      whileInView={{ y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.7 }}
       className={cn('mb-12', align === 'center' ? 'text-center' : 'text-left', className)}
@@ -35,7 +36,6 @@ export default function SectionHeading({
       <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gray-500 mb-3">{label}</p>
       <HeadingTag
         id={id}
-        aria-level={ariaLevel}
         className="font-display text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-4 gradient-text"
       >
         {title}

@@ -61,7 +61,7 @@ export default function GlobalSection() {
             </h3>
             <p className="text-gray-300 text-base md:text-lg leading-relaxed">
               Digital products can connect people, ideas and services across borders. Maniesta is
-              built with a global perspective — from responsive interfaces to accessibility
+              built with a global perspective - from responsive interfaces to accessibility
               standards and performance optimization.
             </p>
 
@@ -84,7 +84,7 @@ export default function GlobalSection() {
                 className="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-pulse"
                 aria-hidden="true"
               />
-              <span>Live globe rendering — interactive 3D visualization</span>
+              <span>Live globe rendering - interactive 3D visualization</span>
             </div>
           </motion.div>
 

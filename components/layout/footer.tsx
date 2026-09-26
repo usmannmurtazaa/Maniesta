@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { FiGithub, FiMail, FiLinkedin, FiArrowUpRight, FiExternalLink } from 'react-icons/fi';
 
+const PORTFOLIO_URL = 'https://usmanmurtaza.netlify.app';
+
 export default function Footer() {
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -11,21 +13,30 @@ export default function Footer() {
   };
 
   const navItems = ['About', 'Projects', 'Technology', 'Global', 'Contact'];
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative py-12 bg-[#08080d] border-t border-white/5 overflow-hidden" aria-label="Footer">
+    <footer
+      className="relative py-12 bg-[#08080d] border-t border-white/5 overflow-hidden"
+      aria-label="Footer"
+    >
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent" />
       <div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-40 opacity-10 blur-3xl pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at center, rgba(139,92,246,0.4) 0%, transparent 70%)' }}
+        style={{
+          background:
+            'radial-gradient(ellipse at center, rgba(139,92,246,0.4) 0%, transparent 70%)',
+        }}
       />
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div className="md:col-span-2">
+            {/* Only y-translation is animated so the logo is always
+                present in the server-rendered HTML. */}
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ y: 10 }}
+              whileInView={{ y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
               className="flex items-center gap-3 mb-4"
@@ -80,15 +91,17 @@ export default function Footer() {
                 <FiMail className="w-4 h-4 group-hover:text-cyan-400 transition-colors" />
                 maniesta01@gmail.com
               </a>
-              {/* Portfolio link */}
+              {/* Portfolio backlink - anchor text uses the creator's name
+                  so search engines learn the entity association. */}
               <a
-                href="https://usmanmurtaza.netlify.app/"
+                href={PORTFOLIO_URL}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer author"
+                aria-label="Usman Murtaza - Full Stack Developer portfolio"
                 className="text-gray-500 hover:text-cyan-400 text-sm transition-colors inline-flex items-center gap-2 group"
               >
                 <FiExternalLink className="w-4 h-4 group-hover:text-purple-400 transition-colors" />
-                Founder
+                Usman Murtaza - Full Stack Developer
               </a>
             </div>
 
@@ -98,7 +111,7 @@ export default function Footer() {
                 href="https://github.com/usmannmurtazaa"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="GitHub"
+                aria-label="GitHub - Usman Murtaza"
                 className="text-gray-500 hover:text-green-400 transition-colors"
                 whileHover={{ y: -3, scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -109,7 +122,7 @@ export default function Footer() {
                 href="https://www.linkedin.com/in/usmannmurtazaa"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="LinkedIn"
+                aria-label="LinkedIn - Usman Murtaza"
                 className="text-gray-500 hover:text-sky-500 transition-colors"
                 whileHover={{ y: -3, scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -122,15 +135,13 @@ export default function Footer() {
 
         {/* Bottom bar with credit */}
         <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="text-xs text-gray-600">© {currentYear} Maniesta. All rights reserved.</p>
           <p className="text-xs text-gray-600">
-            © 2026 Maniesta. All rights reserved.
-          </p>
-          <p className="text-xs text-gray-600">
-            Founder Of Maniesta:{' '}
+            Created by{' '}
             <a
-              href="https://usmanmurtaza.netlify.app/"
+              href={PORTFOLIO_URL}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer author"
               className="text-gray-500 hover:text-white transition-colors underline underline-offset-2"
             >
               Usman Murtaza
@@ -150,11 +161,14 @@ export default function Footer() {
           animation: iconPulse 4s ease-in-out infinite;
         }
         @keyframes iconPulse {
-          0%, 100% {
-            filter: drop-shadow(0 0 2px #22d3ee) drop-shadow(0 0 4px #3b82f6) drop-shadow(0 0 8px #8b5cf6);
+          0%,
+          100% {
+            filter: drop-shadow(0 0 2px #22d3ee) drop-shadow(0 0 4px #3b82f6)
+              drop-shadow(0 0 8px #8b5cf6);
           }
           50% {
-            filter: drop-shadow(0 0 4px #22d3ee) drop-shadow(0 0 8px #3b82f6) drop-shadow(0 0 16px #8b5cf6);
+            filter: drop-shadow(0 0 4px #22d3ee) drop-shadow(0 0 8px #3b82f6)
+              drop-shadow(0 0 16px #8b5cf6);
           }
         }
         .shimmer-text {
@@ -167,8 +181,12 @@ export default function Footer() {
           animation: shimmer 5s linear infinite;
         }
         @keyframes shimmer {
-          0% { background-position: 0% 50%; }
-          100% { background-position: 200% 50%; }
+          0% {
+            background-position: 0% 50%;
+          }
+          100% {
+            background-position: 200% 50%;
+          }
         }
       `}</style>
     </footer>

@@ -8,9 +8,15 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+const SITE_URL = 'https://maniesta.netlify.app';
+const PORTFOLIO_URL = 'https://usmanmurtaza.netlify.app';
+const CREATOR_ID = `${PORTFOLIO_URL}/#person`;
+const CREATOR_NAME = 'Usman Murtaza';
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
+
   if (!project) {
     return {
       title: 'Project Not Found',
@@ -19,30 +25,50 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const baseUrl = 'https://maniesta.netlify.app';
   const thumbnailUrl = project.thumbnail.startsWith('http')
     ? project.thumbnail
-    : `${baseUrl}${project.thumbnail}`;
+    : `${SITE_URL}${project.thumbnail}`;
+
+  const description = `${project.description} Created by ${CREATOR_NAME}.`;
 
   return {
-    title: project.title,
-    description: project.description,
-    keywords: [project.category, ...project.technologies],
+    title: `${project.title} — by ${CREATOR_NAME}`,
+    description,
+    keywords: [
+      project.title,
+      'Maniesta',
+      CREATOR_NAME,
+      project.category,
+      'web application',
+      'React project',
+      ...project.technologies,
+    ],
+    authors: [{ name: CREATOR_NAME, url: PORTFOLIO_URL }],
+    creator: CREATOR_NAME,
     alternates: {
       canonical: `/projects/${project.slug}`,
     },
     openGraph: {
-      title: `MANIESTA | ${project.title}`,
-      description: project.description,
-      url: `${baseUrl}/projects/${project.slug}`,
-      images: [{ url: thumbnailUrl, alt: `${project.title} interface` }],
+      title: `${project.title} | MANIESTA`,
+      description,
+      url: `${SITE_URL}/projects/${project.slug}`,
       type: 'website',
+      siteName: 'MANIESTA',
+      images: [
+        {
+          url: thumbnailUrl,
+          width: 1200,
+          height: 630,
+          alt: `${project.title} interface — created by ${CREATOR_NAME}`,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `MANIESTA | ${project.title}`,
-      description: project.description,
+      title: `${project.title} | MANIESTA`,
+      description,
       images: [thumbnailUrl],
+      creator: '@usman_murtazaa',
     },
   };
 }
@@ -52,55 +78,90 @@ export default async function ProjectDetailPage({ params }: Props) {
   const project = getProjectBySlug(slug);
   if (!project) notFound();
 
-  const baseUrl = 'https://maniesta.netlify.app';
   const screenshotUrl =
     project.screenshots.length > 0
       ? project.screenshots[0].startsWith('http')
         ? project.screenshots[0]
-        : `${baseUrl}${project.screenshots[0]}`
-      : `${baseUrl}${project.thumbnail}`;
+        : `${SITE_URL}${project.screenshots[0]}`
+      : `${SITE_URL}${project.thumbnail}`;
 
-  const breadcrumbSchema = {
+  const thumbnailUrl = project.thumbnail.startsWith('http')
+    ? project.thumbnail
+    : `${SITE_URL}${project.thumbnail}`;
+
+  const pageUrl = `${SITE_URL}/projects/${project.slug}`;
+
+  /* Single @graph combining:
+     - WebPage      → identity of this specific detail page
+     - BreadcrumbList → Home → Projects → [Project]
+     - SoftwareApplication → the actual product with author/creator
+       pointing to the Person @id declared in layout.tsx. */
+  const projectPageSchema = {
     '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+    '@graph': [
       {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Projects',
-        item: `${baseUrl}/projects`,
+        '@type': 'WebPage',
+        '@id': `${pageUrl}/#webpage`,
+        url: pageUrl,
+        name: `${project.title} — by ${CREATOR_NAME}`,
+        description: project.description,
+        inLanguage: 'en',
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+        about: { '@id': `${pageUrl}/#software` },
+        breadcrumb: { '@id': `${pageUrl}/#breadcrumb` },
+        primaryImageOfPage: { '@type': 'ImageObject', url: screenshotUrl },
       },
       {
-        '@type': 'ListItem',
-        position: 3,
+        '@type': 'BreadcrumbList',
+        '@id': `${pageUrl}/#breadcrumb`,
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Projects',
+            item: `${SITE_URL}/projects`,
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: project.title,
+            item: pageUrl,
+          },
+        ],
+      },
+      {
+        '@type': 'SoftwareApplication',
+        '@id': `${pageUrl}/#software`,
         name: project.title,
-        item: `${baseUrl}/projects/${project.slug}`,
+        description: project.description,
+        url: project.url,
+        applicationCategory: 'WebApplication',
+        operatingSystem: 'Web',
+        softwareVersion: '1.0',
+        inLanguage: 'en',
+        keywords: [project.title, project.category, ...project.technologies].join(', '),
+        featureList: project.features,
+        image: [screenshotUrl, thumbnailUrl],
+        screenshot: screenshotUrl,
+        author: { '@id': CREATOR_ID },
+        creator: { '@id': CREATOR_ID },
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+        },
       },
     ],
-  };
-
-  const softwareSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: project.title,
-    description: project.description,
-    url: project.url,
-    applicationCategory: 'WebApplication',
-    operatingSystem: 'Web',
-    screenshot: screenshotUrl,
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   };
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(projectPageSchema) }}
       />
       <ProjectDetailClient project={project} />
     </>

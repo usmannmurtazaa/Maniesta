@@ -2,6 +2,7 @@ import { projects, Project } from '@/data/projects';
 
 /**
  * Find a project by its slug.
+ * Used by the [slug] route and by anyone linking directly to a project.
  */
 export function getProjectBySlug(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);
@@ -9,6 +10,7 @@ export function getProjectBySlug(slug: string): Project | undefined {
 
 /**
  * Get only projects marked as featured.
+ * Used by the homepage / projects page for the "featured" grid.
  */
 export function getFeaturedProjects(): Project[] {
   return projects.filter((p) => p.featured);
@@ -17,11 +19,16 @@ export function getFeaturedProjects(): Project[] {
 /**
  * Get projects filtered by category.
  * Pass "All" to return every project.
- * Supports partial matching (e.g., "AI" matches "AI / Productivity").
+ *
+ * The match is case-insensitive and uses substring matching, so a filter
+ * value of "ai" will match "AI / Productivity", "AI / Career", and
+ * "AI / Travel". This is intentional: it lets the URL query param be
+ * user-friendly without requiring exact category strings.
  */
 export function getProjectsByCategory(category: string): Project[] {
-  if (category === 'All') return projects;
-  return projects.filter((p) => p.category.includes(category));
+  if (!category || category === 'All') return projects;
+  const needle = category.toLowerCase();
+  return projects.filter((p) => p.category.toLowerCase().includes(needle));
 }
 
 /**
@@ -35,7 +42,7 @@ export function getAllCategories(): string[] {
 }
 
 /**
- * Get all project slugs – useful for generateStaticParams or sitemap.
+ * Get all project slugs — used by generateStaticParams and sitemap.
  */
 export function getAllProjectSlugs(): string[] {
   return projects.map((p) => p.slug);

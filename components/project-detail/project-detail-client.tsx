@@ -7,6 +7,9 @@ import { FiArrowLeft, FiExternalLink, FiGithub, FiCheckCircle, FiCode } from 're
 import { Project } from '@/data/projects';
 import Gallery from './gallery';
 
+const PORTFOLIO_URL = 'https://usmanmurtaza.netlify.app';
+const CREATOR_NAME = 'Usman Murtaza';
+
 export default function ProjectDetailClient({ project }: { project: Project }) {
   return (
     <div className="min-h-screen pt-24 pb-20 bg-[#0a0a0f] overflow-hidden relative">
@@ -35,6 +38,35 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 relative z-10">
+        {/* Visible breadcrumb — mirrors the JSON-LD BreadcrumbList emitted
+            by the parent page's structured data. Improves crawlability and
+            user orientation. */}
+        <nav aria-label="Breadcrumb" className="mb-4">
+          <ol className="flex items-center gap-2 text-xs sm:text-sm text-gray-500">
+            <li>
+              <Link
+                href="/"
+                className="hover:text-white transition-colors underline-offset-4 hover:underline"
+              >
+                Home
+              </Link>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li>
+              <Link
+                href="/projects"
+                className="hover:text-white transition-colors underline-offset-4 hover:underline"
+              >
+                Projects
+              </Link>
+            </li>
+            <li aria-hidden="true">/</li>
+            <li aria-current="page" className="text-gray-300 truncate max-w-[160px] sm:max-w-none">
+              {project.title}
+            </li>
+          </ol>
+        </nav>
+
         {/* Back button */}
         <Link
           href="/projects"
@@ -52,6 +84,23 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
           className="mb-10"
         >
           <h1 className="text-3xl md:text-5xl font-bold mb-3 text-white">{project.title}</h1>
+
+          {/* Visible creator credit — reinforces the entity association
+              between Maniesta, this project, and Usman Murtaza. Also a
+              real crawlable link to the portfolio. */}
+          <p className="text-sm text-gray-500 mb-3">
+            Created by{' '}
+            <a
+              href={PORTFOLIO_URL}
+              target="_blank"
+              rel="noopener noreferrer author"
+              className="text-purple-300 hover:text-purple-200 underline-offset-4 hover:underline transition-colors"
+            >
+              {CREATOR_NAME}
+            </a>{' '}
+            — Full Stack Developer
+          </p>
+
           <p className="text-lg text-gray-400 max-w-3xl">{project.description}</p>
         </motion.div>
 
@@ -66,18 +115,20 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             href={project.url}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={`Open the live ${project.title} application in a new tab`}
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm text-white bg-gradient-to-r from-blue-500 via-purple-500 to-magenta-500 shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 hover:-translate-y-0.5 transition-all"
           >
-            Live Demo <FiExternalLink className="w-4 h-4" />
+            Live Demo <FiExternalLink className="w-4 h-4" aria-hidden="true" />
           </a>
           {project.github && (
             <a
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`View the source code for ${project.title} on GitHub`}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm text-white bg-white/5 border border-white/10 backdrop-blur-md hover:border-purple-500/40 hover:bg-purple-500/10 hover:shadow-glow-purple hover:-translate-y-0.5 transition-all"
             >
-              GitHub <FiGithub className="w-4 h-4" />
+              GitHub <FiGithub className="w-4 h-4" aria-hidden="true" />
             </a>
           )}
         </motion.div>
@@ -135,13 +186,15 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             />
             <div className="relative z-10">
               <h2 className="flex items-center gap-2 text-xl md:text-2xl font-semibold mb-4 text-white">
-                <FiCheckCircle className="w-5 h-5 text-emerald-400" />
+                <FiCheckCircle className="w-5 h-5 text-emerald-400" aria-hidden="true" />
                 Features
               </h2>
               <ul className="space-y-3">
                 {project.features.map((feature, i) => (
                   <li key={i} className="flex items-start gap-3">
-                    <span className="text-purple-400 mt-1">→</span>
+                    <span className="text-purple-400 mt-1" aria-hidden="true">
+                      →
+                    </span>
                     <span className="text-gray-300 text-sm md:text-base">{feature}</span>
                   </li>
                 ))}
@@ -164,7 +217,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             />
             <div className="relative z-10">
               <h2 className="flex items-center gap-2 text-xl md:text-2xl font-semibold mb-4 text-white">
-                <FiCode className="w-5 h-5 text-cyan-400" />
+                <FiCode className="w-5 h-5 text-cyan-400" aria-hidden="true" />
                 Technology Stack
               </h2>
               <div className="flex flex-wrap gap-2">
@@ -185,6 +238,29 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         {project.screenshots.length > 0 && (
           <Gallery images={project.screenshots} altPrefix={project.title} />
         )}
+
+        {/* Bottom creator credit — second crawlable link to portfolio */}
+        <p className="mt-16 text-center text-sm text-gray-500">
+          {project.title} is designed and developed by{' '}
+          <a
+            href={PORTFOLIO_URL}
+            target="_blank"
+            rel="noopener noreferrer author"
+            className="text-purple-300 hover:text-purple-200 underline-offset-4 hover:underline transition-colors"
+          >
+            {CREATOR_NAME}
+          </a>
+          . See more at{' '}
+          <a
+            href={PORTFOLIO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-purple-300 hover:text-purple-200 underline-offset-4 hover:underline transition-colors"
+          >
+            usmanmurtaza.netlify.app
+          </a>
+          .
+        </p>
       </div>
     </div>
   );

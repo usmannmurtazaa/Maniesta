@@ -2,21 +2,34 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiMail, FiGithub, FiLinkedin, FiArrowRight, FiMessageCircle } from 'react-icons/fi';
+import {
+  FiMail,
+  FiGithub,
+  FiLinkedin,
+  FiArrowRight,
+  FiMessageCircle,
+  FiExternalLink,
+} from 'react-icons/fi';
 import SparklesCore from '@/components/ui/sparkles';
+
+const PORTFOLIO_URL = 'https://usmanmurtaza.netlify.app';
+const CONTACT_EMAIL = 'maniesta01@gmail.com';
+const SITE_URL = 'https://maniesta.netlify.app';
 
 function ContactButton({
   href,
   icon,
   label,
   variant = 'outline',
-  hoverColor = '#22d3ee', // default cyan
+  hoverColor = '#22d3ee',
+  external = true,
 }: {
   href: string;
   icon: React.ReactNode;
   label: string;
   variant?: 'solid' | 'outline';
   hoverColor?: string;
+  external?: boolean;
 }) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -28,8 +41,8 @@ function ContactButton({
   return (
     <a
       href={href}
-      target={href.startsWith('mailto') ? undefined : '_blank'}
-      rel={href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={`group flex items-center gap-3 px-6 py-3.5 rounded-full text-sm font-semibold transition-colors duration-300 cursor-pointer ${buttonClasses}`}
@@ -51,13 +64,33 @@ function ContactButton({
   );
 }
 
+/* Contact point schema - tells search engines this section is a real
+   contact endpoint tied to the Maniesta brand and Usman Murtaza. */
+const contactSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPoint',
+  '@id': `${SITE_URL}/#contact`,
+  contactType: 'customer support',
+  email: CONTACT_EMAIL,
+  url: SITE_URL,
+  areaServed: 'Worldwide',
+  availableLanguage: ['English', 'Urdu'],
+  contactOption: 'TollFree',
+};
+
 export default function ContactSection() {
   return (
     <section
       id="contact"
-      aria-label="Contact"
+      aria-label="Contact Maniesta"
       className="relative py-20 md:py-28 bg-[#0a0a12] overflow-hidden"
     >
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactSchema) }}
+      />
+
       {/* Enhanced multi-layer background */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div
@@ -126,8 +159,17 @@ export default function ContactSection() {
             transition={{ duration: 0.6, delay: 0.15 }}
             className="text-gray-300 max-w-2xl mx-auto text-base md:text-lg"
           >
-            Have an idea, project or collaboration in mind? I&apos;m interested in building useful
-            digital products, exploring modern technologies and working on interesting ideas.
+            Have an idea, project or collaboration in mind? I&apos;m{' '}
+            <a
+              href={PORTFOLIO_URL}
+              target="_blank"
+              rel="noopener noreferrer author"
+              className="text-purple-300 hover:text-purple-200 underline-offset-4 hover:underline transition-colors"
+            >
+              Usman Murtaza
+            </a>{' '}
+            - interested in building useful digital products, exploring modern technologies and
+            working on interesting ideas.
           </motion.p>
         </div>
 
@@ -156,27 +198,35 @@ export default function ContactSection() {
             <div className="relative z-10 flex flex-col items-center gap-6">
               <p className="text-sm text-gray-300 font-medium">Reach out through any channel</p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
+              <div className="flex flex-wrap justify-center items-center gap-4 w-full">
                 <ContactButton
-                  href="mailto:maniesta01@gmail.com"
+                  href={`mailto:${CONTACT_EMAIL}`}
                   icon={<FiMail className="w-5 h-5" />}
                   label="Email Me"
                   variant="solid"
-                  hoverColor="#22d3ee" // cyan
+                  hoverColor="#22d3ee"
+                  external={false}
+                />
+                <ContactButton
+                  href={PORTFOLIO_URL}
+                  icon={<FiExternalLink className="w-5 h-5" />}
+                  label="Portfolio"
+                  variant="outline"
+                  hoverColor="#22d3ee"
                 />
                 <ContactButton
                   href="https://github.com/usmannmurtazaa"
                   icon={<FiGithub className="w-5 h-5" />}
                   label="GitHub"
                   variant="outline"
-                  hoverColor="#34d399" // emerald
+                  hoverColor="#34d399"
                 />
                 <ContactButton
                   href="https://www.linkedin.com/in/usmannmurtazaa"
                   icon={<FiLinkedin className="w-5 h-5" />}
                   label="LinkedIn"
                   variant="outline"
-                  hoverColor="#60a5fa" // blue
+                  hoverColor="#60a5fa"
                 />
               </div>
 

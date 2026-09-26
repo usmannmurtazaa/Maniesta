@@ -20,11 +20,17 @@ import {
 import { TbApi } from 'react-icons/tb';
 import { FiGlobe, FiCpu, FiLayers } from 'react-icons/fi';
 
+const PORTFOLIO_URL = 'https://usmanmurtaza.netlify.app';
+
 export default function TechnologySection() {
   const marqueeItems = [...technologies, ...technologies];
 
   return (
-    <section id="technology" className="relative py-20 md:py-28 bg-[#0a0a12] overflow-hidden">
+    <section
+      id="technology"
+      aria-labelledby="technology-heading"
+      className="relative py-20 md:py-28 bg-[#0a0a12] overflow-hidden"
+    >
       <div
         aria-hidden="true"
         className="absolute inset-0 pointer-events-none"
@@ -42,8 +48,13 @@ export default function TechnologySection() {
           description="Every product is built with modern, production-grade technologies chosen for performance, scalability and user experience."
         />
 
+        {/* Grid - `initial={false}` keeps the tech names visible in the
+            server-rendered HTML. The previous `initial={{ opacity: 0 }}`
+            wrapped the whole grid in an opacity-0 style at SSR, which
+            caused search engines to potentially skip indexing the
+            technology names. */}
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={false}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -78,7 +89,16 @@ export default function TechnologySection() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mt-10 text-center text-sm text-gray-500"
         >
-          And more — the stack evolves with each new product.
+          And more - the stack evolves with each new product. The ecosystem is built by{' '}
+          <a
+            href={PORTFOLIO_URL}
+            target="_blank"
+            rel="noopener noreferrer author"
+            className="text-purple-300 hover:text-purple-200 underline-offset-4 hover:underline transition-colors"
+          >
+            Usman Murtaza
+          </a>
+          .
         </motion.p>
       </div>
     </section>

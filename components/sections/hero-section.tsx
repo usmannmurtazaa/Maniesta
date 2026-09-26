@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import WavyBackground from '@/components/ui/wavy-background';
 import LampContainer from '@/components/ui/lamp';
@@ -9,7 +9,7 @@ import SparklesCore from '@/components/ui/sparkles';
 import AnimatedButton from '@/components/ui/animated-button';
 
 export default function HeroSection() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const contentRef = useRef<HTMLDivElement>(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
@@ -22,11 +22,10 @@ export default function HeroSection() {
   }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (isTouchDevice || prefersReducedMotion) return;
-    setMousePos({
-      x: (e.clientX / window.innerWidth - 0.5) * 20,
-      y: (e.clientY / window.innerHeight - 0.5) * 10,
-    });
+    if (isTouchDevice || prefersReducedMotion || !contentRef.current) return;
+    const x = (e.clientX / window.innerWidth - 0.5) * 20 * 0.3;
+    const y = (e.clientY / window.innerHeight - 0.5) * 10 * 0.4;
+    contentRef.current.style.transform = `translate(${x}px, ${y}px)`;
   };
 
   const scrollTo = (id: string) => {
@@ -41,7 +40,7 @@ export default function HeroSection() {
       onMouseMove={handleMouseMove}
       aria-label="Hero"
     >
-      <h1 className="sr-only">MANIESTA – Digital Products & Interactive Experiences</h1>
+      <h1 className="sr-only">MANIESTA - Digital Products and Web Applications by Usman Murtaza</h1>
 
       {/* Background effects (z-index 0) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -50,20 +49,19 @@ export default function HeroSection() {
           blur={20}
           speed="slow"
           waveOpacity={0.9}
-          verticalOffset={0.6} // 0.5 center, 0.3 upar shift
+          verticalOffset={0.6}
           className="opacity-70"
         />
       </div>
 
       {/* Main content – fills available vertical space and is centered */}
       <div
+        ref={contentRef}
         className="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-5xl"
         style={{
-          transform:
-            isTouchDevice || prefersReducedMotion
-              ? 'none'
-              : `translate(${mousePos.x * 0.3}px, ${mousePos.y * 0.4}px)`,
+          transform: 'translate(0, 0)',
           transition: 'transform 0.15s ease-out',
+          willChange: 'transform',
         }}
       >
         {/* Lamp – sits directly above MANIESTA */}
@@ -90,6 +88,19 @@ export default function HeroSection() {
           </div>
         </div>
 
+        {/* Creator credit - visible, indexed by search engines, links to portfolio */}
+        <p className="relative z-10 mt-2 md:mt-3 text-xs sm:text-sm md:text-base text-white/50 tracking-[0.15em] uppercase text-center">
+          Digital products by{' '}
+          <a
+            href="https://usmanmurtaza.netlify.app"
+            target="_blank"
+            rel="noopener noreferrer author"
+            className="text-purple-300 hover:text-purple-200 transition-colors underline-offset-4 hover:underline"
+          >
+            Usman Murtaza
+          </a>
+        </p>
+
         {/* Tagline */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -108,7 +119,8 @@ export default function HeroSection() {
           className="mt-3 md:mt-4 text-sm md:text-base lg:text-lg max-w-2xl mx-auto text-white/55 leading-relaxed text-center"
         >
           Maniesta is a collection of modern applications and digital products built across AI,
-          productivity, education, utilities, weather, entertainment and business solutions.
+          productivity, education, utilities, weather, entertainment and business solutions -
+          created by Usman Murtaza.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -127,7 +139,7 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Scroll indicator – now in normal flow at the bottom */}
+      {/* Scroll indicator */}
       {!prefersReducedMotion && (
         <motion.div
           initial={{ opacity: 0 }}

@@ -9,6 +9,10 @@ import SectionHeading from '@/components/ui/section-heading';
 
 const HeroParallax = lazy(() => import('@/components/projects/hero-parallax'));
 
+const PORTFOLIO_URL = 'https://usmanmurtaza.netlify.app';
+const CREATOR_ID = `${PORTFOLIO_URL}/#person`;
+const SITE_URL = 'https://maniesta.netlify.app';
+
 export default function ProjectsSection() {
   const [activeFilter, setActiveFilter] = useState('All');
 
@@ -17,12 +21,42 @@ export default function ProjectsSection() {
     return projects.filter((p) => p.category.includes(activeFilter));
   }, [activeFilter]);
 
+  /* Structured data for the full project list. Emits one
+     SoftwareApplication per project, with author + creator pointing
+     to the same Person node defined in layout.tsx. */
+  const projectsSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    '@id': `${SITE_URL}/#projects-list`,
+    name: 'Maniesta Products - created by Usman Murtaza',
+    description:
+      'A catalog of digital products and web applications in the Maniesta ecosystem, all created by Usman Murtaza.',
+    itemListElement: projects.map((project, index) => ({
+      '@type': 'SoftwareApplication',
+      position: index + 1,
+      name: project.title,
+      description: project.shortDescription || project.description || '',
+      applicationCategory: project.category?.[0] || 'WebApplication',
+      operatingSystem: 'Web',
+      url: project.liveUrl || SITE_URL,
+      author: { '@id': CREATOR_ID },
+      creator: { '@id': CREATOR_ID },
+    })),
+  };
+
   return (
     <section
       id="projects"
+      aria-labelledby="projects-heading"
       className="relative py-20 md:py-28 bg-[#0a0a12]"
       style={{ position: 'relative' }}
     >
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(projectsSchema) }}
+      />
+
       <div
         className="max-w-7xl mx-auto px-4 md:px-6 relative z-10"
         style={{ position: 'relative' }}
@@ -39,7 +73,7 @@ export default function ProjectsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-14"
+          className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-8"
           style={{ position: 'relative' }}
         >
           {[
@@ -60,11 +94,34 @@ export default function ProjectsSection() {
           ))}
         </motion.div>
 
+        {/* Creator credit */}
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-center text-xs sm:text-sm text-gray-400 tracking-[0.15em] uppercase mb-14"
+        >
+          Curated by{' '}
+          <a
+            href={PORTFOLIO_URL}
+            target="_blank"
+            rel="noopener noreferrer author"
+            className="text-purple-300 hover:text-purple-200 underline-offset-4 hover:underline transition-colors"
+          >
+            Usman Murtaza
+          </a>
+        </motion.p>
+
         <ProjectFilter activeFilter={activeFilter} onFilterChange={setActiveFilter} />
 
-        {/* Filtered grid */}
+        {/* Filtered grid.
+            NOTE: `initial={false}` keeps project cards visible in the
+            server-rendered HTML. Animations are still applied per card
+            inside ProjectCard, but the container never forces opacity: 0,
+            so search engines see the full project list immediately. */}
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={false}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}

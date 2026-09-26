@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
+const SITE_URL = 'https://maniesta.netlify.app';
+
 const navItems = [
   { id: 'projects', label: 'Projects' },
   { id: 'about', label: 'About' },
@@ -12,6 +14,23 @@ const navItems = [
   { id: 'global', label: 'Global' },
   { id: 'contact', label: 'Contact' },
 ];
+
+/* SiteNavigationElement — tells Google which anchors on this page are
+   primary navigation, and how they are grouped. Uses the same section
+   IDs the actual <a href="#..."> links point at. */
+const navigationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SiteNavigationElement',
+  '@id': `${SITE_URL}/#primary-navigation`,
+  name: 'Main navigation',
+  hasPart: [
+    { '@type': 'WebPageElement', name: 'Projects', url: `${SITE_URL}/#projects` },
+    { '@type': 'WebPageElement', name: 'About', url: `${SITE_URL}/#about` },
+    { '@type': 'WebPageElement', name: 'Technology', url: `${SITE_URL}/#technology` },
+    { '@type': 'WebPageElement', name: 'Global', url: `${SITE_URL}/#global` },
+    { '@type': 'WebPageElement', name: 'Contact', url: `${SITE_URL}/#contact` },
+  ],
+};
 
 export default function Navigation() {
   const [scrolled, setScrolled] = useState(false);
@@ -42,6 +61,9 @@ export default function Navigation() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  /* Smooth-scroll helper. Kept as an onClick handler so JS-enabled users
+     get the smooth scroll; JS-disabled visitors still jump via the
+     real #anchor href on each link. */
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -56,12 +78,17 @@ export default function Navigation() {
         scrolled ? 'py-3 shadow-lg shadow-black/20' : 'py-5'
       )}
     >
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(navigationSchema) }}
+      />
+
       <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between">
-        {/* Logo with the generated favicon + glow */}
-        <motion.button
-          type="button"
-          onClick={() => scrollTo('hero')}
-          className="flex items-center gap-2 bg-transparent border-none cursor-pointer group"
+        {/* Logo — a real <a> so it links to the site root for crawlers. */}
+        <motion.a
+          href="/"
+          className="flex items-center gap-2 group"
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
           aria-label="MANIESTA home"
@@ -84,17 +111,20 @@ export default function Navigation() {
           >
             MANIESTA
           </span>
-        </motion.button>
+        </motion.a>
 
-        {/* Desktop nav */}
+        {/* Desktop nav — real <a href> for each section. */}
         <div className="hidden md:flex items-center gap-6">
           {navItems.map((item) => (
-            <motion.button
+            <motion.a
               key={item.id}
-              type="button"
-              onClick={() => scrollTo(item.id)}
+              href={`#${item.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollTo(item.id);
+              }}
               className={cn(
-                'relative text-sm font-medium transition-colors bg-transparent border-none cursor-pointer',
+                'relative text-sm font-medium transition-colors cursor-pointer',
                 activeId === item.id ? 'text-white' : 'text-gray-400 hover:text-white'
               )}
               whileHover={{ y: -2 }}
@@ -109,20 +139,24 @@ export default function Navigation() {
                 whileHover={{ width: '100%' }}
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
               />
-            </motion.button>
+            </motion.a>
           ))}
-          <motion.button
-            type="button"
-            onClick={() => scrollTo('projects')}
+          <motion.a
+            href="#projects"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollTo('projects');
+            }}
             className="px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg shadow-purple-500/25"
-            whileHover={{ scale: 1.05, shadow: '0 0 25px rgba(139,92,246,0.6)' }}
+            whileHover={{ scale: 1.05, boxShadow: '0 0 25px rgba(139,92,246,0.6)' }}
             whileTap={{ scale: 0.95 }}
           >
             Explore
-          </motion.button>
+          </motion.a>
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile hamburger — stays a button because it opens the menu,
+            not navigates to a URL. That is correct HTML semantics. */}
         <motion.button
           type="button"
           className="md:hidden text-gray-300 bg-transparent border-none cursor-pointer p-2"
@@ -130,6 +164,7 @@ export default function Navigation() {
           whileTap={{ scale: 0.9 }}
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
+          aria-controls="mobile-navigation"
         >
           <svg
             width="24"
@@ -145,10 +180,11 @@ export default function Navigation() {
         </motion.button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu — links become real <a href> so crawlers see them. */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
+            id="mobile-navigation"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -157,12 +193,15 @@ export default function Navigation() {
           >
             <div className="px-4 py-4 flex flex-col gap-1">
               {navItems.map((item) => (
-                <motion.button
+                <motion.a
                   key={item.id}
-                  type="button"
-                  onClick={() => scrollTo(item.id)}
+                  href={`#${item.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollTo(item.id);
+                  }}
                   className={cn(
-                    'text-left bg-transparent border-none cursor-pointer py-3 px-4 text-base font-medium transition-colors rounded-lg',
+                    'text-left cursor-pointer py-3 px-4 text-base font-medium transition-colors rounded-lg block',
                     activeId === item.id
                       ? 'text-white bg-purple-500/10'
                       : 'text-gray-300 hover:text-white hover:bg-white/5'
@@ -171,16 +210,19 @@ export default function Navigation() {
                   aria-current={activeId === item.id ? 'page' : undefined}
                 >
                   {item.label}
-                </motion.button>
+                </motion.a>
               ))}
-              <motion.button
-                type="button"
-                onClick={() => scrollTo('projects')}
-                className="mt-3 px-5 py-3 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-500"
+              <motion.a
+                href="#projects"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollTo('projects');
+                }}
+                className="mt-3 px-5 py-3 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-blue-500 to-purple-500 text-center"
                 whileTap={{ scale: 0.95 }}
               >
                 Explore Projects
-              </motion.button>
+              </motion.a>
             </div>
           </motion.div>
         )}
