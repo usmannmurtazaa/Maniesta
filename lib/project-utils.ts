@@ -42,7 +42,7 @@ export function getAllCategories(): string[] {
 }
 
 /**
- * Get all project slugs — used by generateStaticParams and sitemap.
+ * Get all project slugs - used by generateStaticParams and sitemap.
  */
 export function getAllProjectSlugs(): string[] {
   return projects.map((p) => p.slug);

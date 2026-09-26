@@ -13,11 +13,6 @@
   "categories": ["productivity", "utilities", "education", "business", "developer"],
   "icons": [
     {
-      "src": "/favicon.ico",
-      "sizes": "any",
-      "type": "image/x-icon"
-    },
-    {
       "src": "/favicon-96x96.png",
       "sizes": "96x96",
       "type": "image/png"
@@ -58,7 +53,7 @@
       "sizes": "1200x630",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Maniesta — digital products and interactive experiences"
+      "label": "Maniesta - digital products and interactive experiences"
     }
   ]
 }

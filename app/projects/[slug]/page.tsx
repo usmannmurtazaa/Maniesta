@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const description = `${project.description} Created by ${CREATOR_NAME}.`;
 
   return {
-    title: `${project.title} — by ${CREATOR_NAME}`,
+    title: `${project.title} - by ${CREATOR_NAME}`,
     description,
     keywords: [
       project.title,
@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: thumbnailUrl,
           width: 1200,
           height: 630,
-          alt: `${project.title} interface — created by ${CREATOR_NAME}`,
+          alt: `${project.title} interface - created by ${CREATOR_NAME}`,
         },
       ],
     },
@@ -103,7 +103,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         '@type': 'WebPage',
         '@id': `${pageUrl}/#webpage`,
         url: pageUrl,
-        name: `${project.title} — by ${CREATOR_NAME}`,
+        name: `${project.title} - by ${CREATOR_NAME}`,
         description: project.description,
         inLanguage: 'en',
         isPartOf: { '@id': `${SITE_URL}/#website` },

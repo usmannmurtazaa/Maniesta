@@ -15,7 +15,7 @@ const navItems = [
   { id: 'contact', label: 'Contact' },
 ];
 
-/* SiteNavigationElement — tells Google which anchors on this page are
+/* SiteNavigationElement - tells Google which anchors on this page are
    primary navigation, and how they are grouped. Uses the same section
    IDs the actual <a href="#..."> links point at. */
 const navigationSchema = {
@@ -84,7 +84,7 @@ export default function Navigation() {
       />
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between">
-        {/* Logo — a real <a> so it links to the site root for crawlers. */}
+        {/* Logo - a real <a> so it links to the site root for crawlers. */}
         <motion.a
           href="/"
           className="flex items-center gap-2 group"
@@ -112,7 +112,7 @@ export default function Navigation() {
           </span>
         </motion.a>
 
-        {/* Desktop nav — real <a href> for each section. */}
+        {/* Desktop nav - real <a href> for each section. */}
         <div className="hidden md:flex items-center gap-6">
           {navItems.map((item) => (
             <motion.a
@@ -154,7 +154,7 @@ export default function Navigation() {
           </motion.a>
         </div>
 
-        {/* Mobile hamburger — stays a button because it opens the menu,
+        {/* Mobile hamburger - stays a button because it opens the menu,
             not navigates to a URL. That is correct HTML semantics. */}
         <motion.button
           type="button"
@@ -179,7 +179,7 @@ export default function Navigation() {
         </motion.button>
       </div>
 
-      {/* Mobile menu — links become real <a href> so crawlers see them. */}
+      {/* Mobile menu - links become real <a href> so crawlers see them. */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div

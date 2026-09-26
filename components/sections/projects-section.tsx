@@ -28,7 +28,7 @@ export default function ProjectsSection() {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     '@id': `${SITE_URL}/#projects-list`,
-    name: 'Maniesta Products — created by Usman Murtaza',
+    name: 'Maniesta Products - created by Usman Murtaza',
     description:
       'A catalog of digital products and web applications in the Maniesta ecosystem, all created by Usman Murtaza.',
     itemListElement: projects.map((project, index) => ({

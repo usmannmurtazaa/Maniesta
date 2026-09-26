@@ -8,7 +8,7 @@ const CACHE_NAME = 'maniesta-v1';
 
 /* Only pre-cache files that (a) exist at build time and (b) do not
  * change between deploys without a version bump. Do NOT pre-cache `/`
- * or `/manifest.json` here — Next.js handles freshness for HTML, and
+ * or `/manifest.json` here - Next.js handles freshness for HTML, and
  * the manifest can change per deploy. */
 const PRECACHE_URLS = [
   '/favicon.ico',
@@ -61,7 +61,7 @@ const isImageOrFont = (request, url) =>
 self.addEventListener('fetch', (event) => {
   const { request } = event;
 
-  // Only handle GET requests — let POST/PUT/etc. pass through to network.
+  // Only handle GET requests - let POST/PUT/etc. pass through to network.
   if (request.method !== 'GET') return;
 
   const url = new URL(request.url);
@@ -69,7 +69,7 @@ self.addEventListener('fetch', (event) => {
   // Only handle same-origin requests (plus Next.js image optimisation).
   if (url.origin !== self.location.origin) return;
 
-  /* 1. Navigate / HTML — network-first, fall back to cache then offline.
+  /* 1. Navigate / HTML - network-first, fall back to cache then offline.
         This is the SEO-critical path: Google and users always get the
         freshest HTML whenever the network is available. */
   if (isNavigate(request)) {
@@ -89,7 +89,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  /* 2. Next.js hashed static assets — cache-first.
+  /* 2. Next.js hashed static assets - cache-first.
         Filenames include a content hash, so they never change between
         deploys. Serving from cache is safe and fast. */
   if (isNextStatic(url)) {
@@ -109,7 +109,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  /* 3. Images and fonts — stale-while-revalidate.
+  /* 3. Images and fonts - stale-while-revalidate.
         Serve cached copy instantly, update in the background. */
   if (isImageOrFont(request, url)) {
     event.respondWith(
@@ -129,7 +129,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  /* 4. Everything else — network-first with cache fallback. */
+  /* 4. Everything else - network-first with cache fallback. */
   event.respondWith(
     fetch(request)
       .then((response) => {

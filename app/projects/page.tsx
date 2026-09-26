@@ -8,9 +8,9 @@ const PORTFOLIO_URL = 'https://usmanmurtaza.netlify.app';
 const CREATOR_ID = `${PORTFOLIO_URL}/#person`;
 
 export const metadata: Metadata = {
-  title: 'Projects — All Maniesta Products',
+  title: 'Projects - All Maniesta Products',
   description:
-    'Explore the complete Maniesta catalog — digital products and web applications across AI, productivity, education, e-commerce, utilities, and more. All created by Usman Murtaza.',
+    'Explore the complete Maniesta catalog - digital products and web applications across AI, productivity, education, e-commerce, utilities, and more. All created by Usman Murtaza.',
   keywords: [
     'Maniesta projects',
     'Maniesta products',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    title: 'Projects — All Maniesta Products',
+    title: 'Projects - All Maniesta Products',
     description:
       'Explore the complete Maniesta catalog of digital products and web applications. Created by Usman Murtaza.',
     url: `${SITE_URL}/projects`,
@@ -38,13 +38,13 @@ export const metadata: Metadata = {
         url: '/images/maniesta-og.png',
         width: 1200,
         height: 630,
-        alt: 'MANIESTA — Projects',
+        alt: 'MANIESTA - Projects',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Projects — All Maniesta Products',
+    title: 'Projects - All Maniesta Products',
     description: 'Explore the complete Maniesta catalog. Created by Usman Murtaza.',
     images: ['/images/maniesta-og.png'],
   },
@@ -79,7 +79,7 @@ const projectsPageSchema = {
       '@type': 'CollectionPage',
       '@id': `${SITE_URL}/projects/#collection`,
       url: `${SITE_URL}/projects`,
-      name: 'Projects — All Maniesta Products',
+      name: 'Projects - All Maniesta Products',
       description:
         'The complete catalog of digital products and web applications in the Maniesta ecosystem, all created by Usman Murtaza.',
       isPartOf: { '@id': `${SITE_URL}/#website` },
@@ -131,7 +131,7 @@ export default function ProjectsPage() {
         />
 
         <div className="max-w-7xl mx-auto px-4 relative z-10">
-          {/* Breadcrumb — also mirrored in the JSON-LD above */}
+          {/* Breadcrumb - also mirrored in the JSON-LD above */}
           <nav aria-label="Breadcrumb" className="mb-6">
             <ol className="flex items-center gap-2 text-sm text-gray-500">
               <li>
@@ -150,7 +150,7 @@ export default function ProjectsPage() {
           </nav>
 
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            All Projects — Created by{' '}
+            All Projects - Created by{' '}
             <a
               href={PORTFOLIO_URL}
               target="_blank"
@@ -163,7 +163,7 @@ export default function ProjectsPage() {
 
           <p className="text-gray-400 text-lg mb-8 max-w-2xl">
             Discover the full collection of {projects.length} digital products, tools, and
-            experiments built by Maniesta — across AI, productivity, education, e-commerce,
+            experiments built by Maniesta - across AI, productivity, education, e-commerce,
             utilities, and more. Part of the{' '}
             <Link
               href="/"
@@ -180,7 +180,7 @@ export default function ProjectsPage() {
             ))}
           </div>
 
-          {/* Bottom portfolio credit — the second crawlable link to the creator */}
+          {/* Bottom portfolio credit - the second crawlable link to the creator */}
           <p className="mt-16 text-center text-sm text-gray-500">
             All products are designed and developed by{' '}
             <a

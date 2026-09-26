@@ -29,7 +29,7 @@
 
 <!-- FOUNDER BADGE -->
 <div align="center">
-  <img src="https://github.com/Usmannmurtazaa.png" alt="Usman Murtaza — Full Stack Developer and creator of Maniesta" width="80" height="80" style="border-radius: 50%; margin-bottom: 10px;" />
+  <img src="https://github.com/Usmannmurtazaa.png" alt="Usman Murtaza - Full Stack Developer and creator of Maniesta" width="80" height="80" style="border-radius: 50%; margin-bottom: 10px;" />
   <p style="font-size: 1.1rem; font-weight: 600; margin: 0;">
     Created by <a href="https://usmanmurtaza.netlify.app">Usman Murtaza</a>
   </p>
@@ -49,17 +49,17 @@
 
 ## 🌟 **Overview**
 
-**MANIESTA** is a digital product ecosystem — a curated collection of 16 web applications, tools, and platforms. The central hub is a modern Next.js site that showcases every product with immersive visuals, real-time 3D, and glassmorphism UI.
+**MANIESTA** is a digital product ecosystem - a curated collection of 16 web applications, tools, and platforms. The central hub is a modern Next.js site that showcases every product with immersive visuals, real-time 3D, and glassmorphism UI.
 
 Every Maniesta product is designed, developed, and maintained by **Usman Murtaza**.
 
 Built with:
 
-- 🌍 **Real-time 3D globe** — Three.js with animated arcs, glowing points, and atmospheric shader
-- 🎨 **Aurora gradient backgrounds** — cyan, blue, purple, and magenta layered radial gradients
-- 🖱️ **Interactive MANIESTA wordmark** — mouse-tracking multicolor gradient reveal
-- 🃏 **Parallax project showcase** — cards move in opposite directions on scroll
-- ✨ **Scroll-driven tracing beam** — follows scroll progress through the narrative
+- 🌍 **Real-time 3D globe** - Three.js with animated arcs, glowing points, and atmospheric shader
+- 🎨 **Aurora gradient backgrounds** - cyan, blue, purple, and magenta layered radial gradients
+- 🖱️ **Interactive MANIESTA wordmark** - mouse-tracking multicolor gradient reveal
+- 🃏 **Parallax project showcase** - cards move in opposite directions on scroll
+- ✨ **Scroll-driven tracing beam** - follows scroll progress through the narrative
 
 ---
 
@@ -85,22 +85,22 @@ Built with:
 
 | #   | Product                                           | Category      | Live                                      |
 | --- | ------------------------------------------------- | ------------- | ----------------------------------------- |
-| 1   | **Maniesta** — ecosystem hub                      | Platform      | [→](https://maniesta.netlify.app)         |
-| 2   | **Maniesta Campus** — campus management           | Education     | [→](https://maniestacampus.netlify.app)   |
-| 3   | **Maniesta School** — school ERP                  | Education     | [→](https://maniesta-school.netlify.app)  |
-| 4   | **Maniesta Resume AI** — AI resume builder        | AI            | [→](https://maniestaresumeai.netlify.app) |
-| 5   | **Resume AI X Pro** — advanced AI resume          | AI            | [→](https://resumeaixpro.netlify.app)     |
-| 6   | **Maniesta AI Travel Planner** — Gemini itinerary | AI            | [→](https://maniestatravel.netlify.app)   |
-| 7   | **Maniesta Suite** — SaaS calculator platform     | Productivity  | [→](https://maniestasuite.netlify.app)    |
-| 8   | **Maniesta Notes** — notes & productivity         | Productivity  | [→](https://maniestanotes.netlify.app)    |
-| 9   | **Maniesta One** — product landing                | Productivity  | [→](https://maniestaone.netlify.app)      |
-| 10  | **Maniesta Digital** — software company site      | Business      | [→](https://maniestadigital.netlify.app)  |
-| 11  | **Maniesta Veyra** — fashion e-commerce           | E-commerce    | [→](https://maniesta-veyra.netlify.app)   |
-| 12  | **Maniesta Label** — fashion storefront           | E-commerce    | [→](https://maniesta-label.netlify.app)   |
-| 13  | **Maniesta Weather** — weather dashboard          | Utility       | [→](https://maniestaweather.netlify.app)  |
-| 14  | **Maniesta Play** — music discovery               | Entertainment | [→](https://maniestaplay.netlify.app)     |
-| 15  | **Nexa Calculator** — GPA/scientific calculator   | Utility       | [→](https://nexacalculator.netlify.app)   |
-| 16  | **Zain Real Estate** — property platform          | Real Estate   | [→](https://zainrealestate.netlify.app)   |
+| 1   | **Maniesta** - ecosystem hub                      | Platform      | [→](https://maniesta.netlify.app)         |
+| 2   | **Maniesta Campus** - campus management           | Education     | [→](https://maniestacampus.netlify.app)   |
+| 3   | **Maniesta School** - school ERP                  | Education     | [→](https://maniesta-school.netlify.app)  |
+| 4   | **Maniesta Resume AI** - AI resume builder        | AI            | [→](https://maniestaresumeai.netlify.app) |
+| 5   | **Resume AI X Pro** - advanced AI resume          | AI            | [→](https://resumeaixpro.netlify.app)     |
+| 6   | **Maniesta AI Travel Planner** - Gemini itinerary | AI            | [→](https://maniestatravel.netlify.app)   |
+| 7   | **Maniesta Suite** - SaaS calculator platform     | Productivity  | [→](https://maniestasuite.netlify.app)    |
+| 8   | **Maniesta Notes** - notes & productivity         | Productivity  | [→](https://maniestanotes.netlify.app)    |
+| 9   | **Maniesta One** - product landing                | Productivity  | [→](https://maniestaone.netlify.app)      |
+| 10  | **Maniesta Digital** - software company site      | Business      | [→](https://maniestadigital.netlify.app)  |
+| 11  | **Maniesta Veyra** - fashion e-commerce           | E-commerce    | [→](https://maniesta-veyra.netlify.app)   |
+| 12  | **Maniesta Label** - fashion storefront           | E-commerce    | [→](https://maniesta-label.netlify.app)   |
+| 13  | **Maniesta Weather** - weather dashboard          | Utility       | [→](https://maniestaweather.netlify.app)  |
+| 14  | **Maniesta Play** - music discovery               | Entertainment | [→](https://maniestaplay.netlify.app)     |
+| 15  | **Nexa Calculator** - GPA/scientific calculator   | Utility       | [→](https://nexacalculator.netlify.app)   |
+| 16  | **Zain Real Estate** - property platform          | Real Estate   | [→](https://zainrealestate.netlify.app)   |
 
 ---
 
@@ -243,9 +243,9 @@ Edit CSS variables in `app/globals.css`:
 
 Adjust in the `GlobalSection` component:
 
-- `pointsCount` — number of glowing dots
-- `arcCount` — number of connection arcs
-- `ringCount` — number of orbital rings
+- `pointsCount` - number of glowing dots
+- `arcCount` - number of connection arcs
+- `ringCount` - number of orbital rings
 - Rotation speed values
 
 ---
@@ -313,13 +313,13 @@ maniesta/
 
 ### **SEO Features**
 
-- **Structured data** — Person, Organization, WebSite, CollectionPage, WebPage, ItemList, SoftwareApplication, BreadcrumbList, ContactPoint, SiteNavigationElement
-- **Per-page metadata** — unique titles, descriptions, keywords, canonicals
-- **Open Graph + Twitter Cards** — rich social previews
-- **Auto-generated sitemap** — includes all 16 project pages
-- **Semantic HTML** — proper heading hierarchy, landmarks
-- **Crawlable links** — real `<a href>` throughout nav, footer, cards
-- **Entity relationships** — bidirectional links between Maniesta and the creator's portfolio
+- **Structured data** - Person, Organization, WebSite, CollectionPage, WebPage, ItemList, SoftwareApplication, BreadcrumbList, ContactPoint, SiteNavigationElement
+- **Per-page metadata** - unique titles, descriptions, keywords, canonicals
+- **Open Graph + Twitter Cards** - rich social previews
+- **Auto-generated sitemap** - includes all 16 project pages
+- **Semantic HTML** - proper heading hierarchy, landmarks
+- **Crawlable links** - real `<a href>` throughout nav, footer, cards
+- **Entity relationships** - bidirectional links between Maniesta and the creator's portfolio
 
 ### **Performance Optimizations**
 
@@ -357,24 +357,24 @@ Feel free to open an issue or submit a pull request.
 
 ## 📄 **License**
 
-Distributed under the **MIT License** — free to use, modify, and distribute.
+Distributed under the **MIT License** - free to use, modify, and distribute.
 
 ---
 
 ## 🙏 **Acknowledgments**
 
-- [Next.js](https://nextjs.org/) — React framework
-- [React](https://reactjs.org/) — UI library
-- [TypeScript](https://www.typescriptlang.org/) — typed JavaScript
-- [Tailwind CSS](https://tailwindcss.com/) — utility-first CSS
-- [Three.js](https://threejs.org/) — 3D rendering
-- [Framer Motion](https://www.framer.com/motion/) — animations
+- [Next.js](https://nextjs.org/) - React framework
+- [React](https://reactjs.org/) - UI library
+- [TypeScript](https://www.typescriptlang.org/) - typed JavaScript
+- [Tailwind CSS](https://tailwindcss.com/) - utility-first CSS
+- [Three.js](https://threejs.org/) - 3D rendering
+- [Framer Motion](https://www.framer.com/motion/) - animations
 
 ---
 
 ## 📞 **Contact**
 
-**Usman Murtaza** — Full Stack Developer, creator of the Maniesta ecosystem
+**Usman Murtaza** - Full Stack Developer, creator of the Maniesta ecosystem
 🌐 Portfolio: [usmanmurtaza.netlify.app](https://usmanmurtaza.netlify.app)
 📧 Email: maniesta01@gmail.com
 🔗 GitHub: [usmannmurtazaa](https://github.com/usmannmurtazaa)

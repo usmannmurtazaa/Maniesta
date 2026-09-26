@@ -38,7 +38,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 relative z-10">
-        {/* Visible breadcrumb — mirrors the JSON-LD BreadcrumbList emitted
+        {/* Visible breadcrumb - mirrors the JSON-LD BreadcrumbList emitted
             by the parent page's structured data. Improves crawlability and
             user orientation. */}
         <nav aria-label="Breadcrumb" className="mb-4">
@@ -85,7 +85,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         >
           <h1 className="text-3xl md:text-5xl font-bold mb-3 text-white">{project.title}</h1>
 
-          {/* Visible creator credit — reinforces the entity association
+          {/* Visible creator credit - reinforces the entity association
               between Maniesta, this project, and Usman Murtaza. Also a
               real crawlable link to the portfolio. */}
           <p className="text-sm text-gray-500 mb-3">
@@ -98,7 +98,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             >
               {CREATOR_NAME}
             </a>{' '}
-            — Full Stack Developer
+            - Full Stack Developer
           </p>
 
           <p className="text-lg text-gray-400 max-w-3xl">{project.description}</p>
@@ -239,7 +239,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
           <Gallery images={project.screenshots} altPrefix={project.title} />
         )}
 
-        {/* Bottom creator credit — second crawlable link to portfolio */}
+        {/* Bottom creator credit - second crawlable link to portfolio */}
         <p className="mt-16 text-center text-sm text-gray-500">
           {project.title} is designed and developed by{' '}
           <a
