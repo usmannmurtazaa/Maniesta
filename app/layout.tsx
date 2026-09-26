@@ -19,9 +19,23 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   manifest: '/manifest.json',
+  /* Icon set produced by the favicon generator.
+     - favicon.ico → legacy browsers
+     - favicon-96x96.png → high-res PNG for desktop
+     - favicon.svg → modern browsers (Chrome, Firefox, Edge, Safari 14+)
+     - apple-touch-icon.png → iOS home screen
+     - web-app-manifest-*.png → Android install prompt (also referenced in manifest.json) */
   icons: {
-    icon: '/icon.png',
-    apple: '/icon.png',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-96x96.png', type: 'image/png', sizes: '96x96' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+    other: [
+      { rel: 'icon', url: '/web-app-manifest-192x192.png', sizes: '192x192', type: 'image/png' },
+      { rel: 'icon', url: '/web-app-manifest-512x512.png', sizes: '512x512', type: 'image/png' },
+    ],
   },
   /* Google Search Console verification. Next.js renders this as:
      <meta name="google-site-verification" content="..." /> in the <head>. */
@@ -90,7 +104,7 @@ const organizationSchema = {
   '@type': 'Organization',
   name: 'Maniesta',
   url: 'https://maniesta.netlify.app',
-  logo: 'https://maniesta.netlify.app/icon.png',
+  logo: 'https://maniesta.netlify.app/web-app-manifest-512x512.png',
   founder: {
     '@type': 'Person',
     name: 'Usman Murtaza',
