@@ -32,7 +32,7 @@ export default function Footer() {
             >
               <div className="icon-glow w-10 h-10">
                 <Image
-                  src="/icon.png"
+                  src="/favicon-96x96.png"
                   alt="Maniesta logo"
                   width={40}
                   height={40}
@@ -85,7 +85,7 @@ export default function Footer() {
                 href="https://usmanmurtaza.netlify.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-500 hover:text-cyan text-sm transition-colors inline-flex items-center gap-2 group"
+                className="text-gray-500 hover:text-cyan-400 text-sm transition-colors inline-flex items-center gap-2 group"
               >
                 <FiExternalLink className="w-4 h-4 group-hover:text-purple-400 transition-colors" />
                 Founder

@@ -57,7 +57,7 @@ export default function Navigation() {
       )}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between">
-        {/* Logo with original icon shape + glow */}
+        {/* Logo with the generated favicon + glow */}
         <motion.button
           type="button"
           onClick={() => scrollTo('hero')}
@@ -68,7 +68,7 @@ export default function Navigation() {
         >
           <div className="icon-glow w-9 h-9">
             <Image
-              src="/icon.png" // apne icon ka path
+              src="/favicon-96x96.png"
               alt="Maniesta logo"
               width={36}
               height={36}
