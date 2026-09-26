@@ -28,7 +28,7 @@ export default function ProjectsSection() {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     '@id': `${SITE_URL}/#projects-list`,
-    name: 'Maniesta Products - created by Usman Murtaza',
+    name: 'Maniesta Products — created by Usman Murtaza',
     description:
       'A catalog of digital products and web applications in the Maniesta ecosystem, all created by Usman Murtaza.',
     itemListElement: projects.map((project, index) => ({
@@ -36,9 +36,9 @@ export default function ProjectsSection() {
       position: index + 1,
       name: project.title,
       description: project.shortDescription || project.description || '',
-      applicationCategory: project.category?.[0] || 'WebApplication',
+      applicationCategory: project.category || 'WebApplication',
       operatingSystem: 'Web',
-      url: project.liveUrl || SITE_URL,
+      url: project.url || SITE_URL,
       author: { '@id': CREATOR_ID },
       creator: { '@id': CREATOR_ID },
     })),
@@ -76,7 +76,7 @@ export default function ProjectsSection() {
           style={{ position: 'relative' }}
         >
           {[
-            { value: '12+', label: 'Digital Products' },
+            { value: '16+', label: 'Digital Products' },
             { value: 'Multiple', label: 'Technology Domains' },
             { value: 'AI', label: 'Powered Solutions' },
             { value: 'Global', label: 'Ready Experiences' },
@@ -115,7 +115,7 @@ export default function ProjectsSection() {
         <ProjectFilter activeFilter={activeFilter} onFilterChange={setActiveFilter} />
 
         {/* Filtered grid.
-            NOTE: `initial={false}` keeps project cards visible in the
+            NOTE: initial={false} keeps project cards visible in the
             server-rendered HTML. Animations are still applied per card
             inside ProjectCard, but the container never forces opacity: 0,
             so search engines see the full project list immediately. */}
